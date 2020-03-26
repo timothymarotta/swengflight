@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 public class User<Trip> {
 
@@ -6,6 +8,14 @@ public class User<Trip> {
     String id;//can't be empty string
 
     public User(String id){
+        trips = new LinkedList<Trip>();
+        if (id == ""){
+            throw new IllegalArgumentException("Can't use empty string for id");
+        }
+        else{
+            this.id = id;
+        }
+
 
     }
     //Should print flight information, when/where for departure, when/where for arrival
@@ -34,7 +44,7 @@ public class User<Trip> {
     }
 
     public String getId(){
-        return "";
+        return id;
     }
 
 
