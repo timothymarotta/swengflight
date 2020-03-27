@@ -4,7 +4,7 @@ target/
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 .idea/
-swengeflight/swengeflight.iml
+swengflight/swengflight.iml
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
