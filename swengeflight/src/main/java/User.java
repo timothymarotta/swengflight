@@ -24,7 +24,7 @@ public class User<Trip> {
     }
     //Adds a trip to the collection
     public void addTrip(Trip newTrip){
-
+        trips.add(newTrip);
     }
 
     public void removeTrip(){
