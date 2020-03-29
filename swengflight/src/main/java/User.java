@@ -38,7 +38,12 @@ public class User<Trip> {
     }
     //returns trip at front, null if list is empty
     public Trip nextTrip(){
-        return null;
+        if (trips.isEmpty()) {
+            return null;
+        }
+        else{
+            return trips.getFirst();
+        }
     }
 
     //returns the collection
