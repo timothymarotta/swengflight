@@ -53,7 +53,12 @@ public class User<Trip> {
 
     //set id, throws IllegalArgumentException if empty string
     public void setId(String id){
-
+        if (id == ""){
+            throw new IllegalArgumentException("Can't set ID to empty string");
+        }
+        else{
+            this.id = id;
+        }
     }
     //returns id
     public String getId(){
