@@ -27,22 +27,30 @@ public class User<Trip> {
         trips.add(newTrip);
     }
 
+
+    //removes trip at front
     public void removeTrip(){
 
     }
+    //removes trip at index, if index not accesible throws IllegalArgumentException
+    public void removeTrip(int index){
 
+    }
+    //returns trip at front
     public Trip nextTrip(){
         return null;
     }
 
+    //returns the collection
     public Collection<Trip> getTrips(){
-        return null;
+        return trips;
     }
 
+    //set id, throws IllegalArgumentException if empty string
     public void setId(){
 
     }
-
+    //returns id
     public String getId(){
         return id;
     }
