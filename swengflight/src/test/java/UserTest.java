@@ -124,4 +124,14 @@ public class UserTest {
         assertEquals(firstTrip, user.nextTrip());
     }
 
+    @Test
+    public void setIDTest(){
+        User user = new User("a");
+        //checking that a basic change works
+        user.setId("123");
+        assertEquals("123", user.getId());
+        //checking that empty string fails
+        assertThrows(IllegalArgumentException.class, ()-> user.setId(""));
+    }
+
 }

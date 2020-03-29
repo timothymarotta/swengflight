@@ -52,7 +52,7 @@ public class User<Trip> {
     }
 
     //set id, throws IllegalArgumentException if empty string
-    public void setId(){
+    public void setId(String id){
 
     }
     //returns id
