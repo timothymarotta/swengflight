@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class User<Trip> {
 
-    Collection<Trip> trips;
+    LinkedList<Trip> trips;
     String id;//can't be empty string
 
     public User(String id){
@@ -30,11 +30,11 @@ public class User<Trip> {
 
     //removes trip at front
     public void removeTrip(){
-
+        trips.removeFirst();
     }
-    //removes trip at index, if index not accessible throws IllegalArgumentException
+    //removes trip at index, if index not accessible throws IndexOutOfBoundsException
     public void removeTrip(int index){
-
+        trips.remove(index);
     }
     //returns trip at front
     public Trip nextTrip(){

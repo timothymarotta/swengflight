@@ -97,7 +97,7 @@ public class UserTest {
         assertEquals(first, multipleTicketTrip);
         assertFalse(itr.hasNext());
         //remove bad index
-        assertThrows(IllegalArgumentException.class, () -> user.removeTrip(1));
+        assertThrows(IndexOutOfBoundsException.class, () -> user.removeTrip(1));
 
 
 
