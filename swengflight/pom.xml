@@ -40,6 +40,12 @@
         <version>${junit.jupiter.version}</version>
         <scope>test</scope>
     </dependency>
+    <!-- reading csv files-->
+    <dependency>
+        <groupId>com.opencsv</groupId>
+        <artifactId>opencsv</artifactId>
+        <version>4.1</version>
+    </dependency>
     <!-- To run tests on IDE such as Eclipse, Intellij -->
     <dependency>
         <groupId>junit</groupId>
