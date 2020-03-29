@@ -32,7 +32,7 @@ public class User<Trip> {
     public void removeTrip(){
 
     }
-    //removes trip at index, if index not accesible throws IllegalArgumentException
+    //removes trip at index, if index not accessible throws IllegalArgumentException
     public void removeTrip(int index){
 
     }

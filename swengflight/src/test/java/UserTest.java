@@ -52,4 +52,55 @@ public class UserTest {
 
     }
 
+    @Test
+    public void removeTripTest(){
+        User user = new User("a");
+        Collection<Ticket> tickets = new LinkedList<Ticket>();
+        tickets.add(new Ticket("first", "a", "1", null,  null));
+        Trip firstTrip = new Trip(tickets);
+        tickets = new LinkedList<Ticket>();
+        tickets.add(new Ticket("second", "b", "2", null, null));
+        Trip secondTrip = new Trip(tickets);
+        tickets = new LinkedList<Ticket>();
+        tickets.add(new Ticket("third", "c", "3", null, null));
+        tickets.add(new Ticket("fourth", "d", "4", null, null));
+        Trip multipleTicketTrip = new Trip(tickets);
+        //checking with just one ticket
+        user.addTrip(firstTrip);
+        user.removeTrip();
+        Collection<Trip> trips = user.getTrips();
+        assertTrue(trips.isEmpty());
+        user.addTrip(firstTrip);
+        user.addTrip(secondTrip);
+        user.addTrip(multipleTicketTrip);
+        //removing from end
+        user.removeTrip(2);
+        Iterator<Trip> itr = user.getTrips().iterator();
+        Trip first = itr.next();
+        Trip second = itr.next();
+        assertEquals(first, firstTrip);
+        assertEquals(second, secondTrip);
+        assertFalse(itr.hasNext());
+        user.addTrip(multipleTicketTrip);
+        //removing from middle
+        user.removeTrip(1);
+        itr = user.getTrips().iterator();
+        first = itr.next();
+        second = itr.next();
+        assertEquals(first, firstTrip);
+        assertEquals(second, multipleTicketTrip);
+        assertFalse(itr.hasNext());
+        //removing from front
+        user.removeTrip(0);
+        itr = user.getTrips().iterator();
+        first = itr.next();
+        assertEquals(first, multipleTicketTrip);
+        assertFalse(itr.hasNext());
+        //remove bad index
+        assertThrows(IllegalArgumentException.class, () -> user.removeTrip(1));
+
+
+
+    }
+
 }
