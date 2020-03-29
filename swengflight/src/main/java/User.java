@@ -36,7 +36,7 @@ public class User<Trip> {
     public void removeTrip(int index){
         trips.remove(index);
     }
-    //returns trip at front
+    //returns trip at front, null if list is empty
     public Trip nextTrip(){
         return null;
     }

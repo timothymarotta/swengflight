@@ -99,8 +99,29 @@ public class UserTest {
         //remove bad index
         assertThrows(IndexOutOfBoundsException.class, () -> user.removeTrip(1));
 
+    }
 
-
+    @Test
+    public void nextTripTest(){
+        User user = new User("a");
+        Collection<Ticket> tickets = new LinkedList<Ticket>();
+        tickets.add(new Ticket("first", "a", "1", null,  null));
+        Trip firstTrip = new Trip(tickets);
+        tickets = new LinkedList<Ticket>();
+        tickets.add(new Ticket("second", "b", "2", null, null));
+        Trip secondTrip = new Trip(tickets);
+        tickets = new LinkedList<Ticket>();
+        tickets.add(new Ticket("third", "c", "3", null, null));
+        tickets.add(new Ticket("fourth", "d", "4", null, null));
+        Trip multipleTicketTrip = new Trip(tickets);
+        //checking with empty list
+        assertEquals(null, user.nextTrip());
+        user.addTrip(firstTrip);
+        //checking with one trip
+        assertEquals(firstTrip, user.nextTrip());
+        //checking with multiple trips in list
+        user.addTrip(secondTrip);
+        assertEquals(firstTrip, user.nextTrip());
     }
 
 }
