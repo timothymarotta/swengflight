@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
@@ -142,10 +143,10 @@ public class UserTest {
      * NOTE: this test is manual and files must be looked at to confirm, could not think of an automated test for this.
      */
     @Test
-    public void exportDataTest(){
+    public void exportDataTest() throws IOException {
         User testUser = new User("janesmith");
         LinkedList<Ticket> testTickets = new LinkedList<>();
-        DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy_HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy_HH:mm:ss");
 
         //initialize test tickets
         testTickets.add(new Ticket("first", "a", "1", null,  null));
