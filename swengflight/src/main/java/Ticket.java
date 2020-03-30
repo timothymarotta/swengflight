@@ -1,13 +1,13 @@
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 public class Ticket {
     String name;
     String airline;
     String ticketNumber;
     Flight flight;
-    Date date;
+    ZonedDateTime date;
 
-    public Ticket(String name, String airline, String ticketNumber, Flight flight, Date date) {
+    public Ticket(String name, String airline, String ticketNumber, Flight flight, ZonedDateTime date) {
         this.name = name;
         this.airline = airline;
         this.ticketNumber = ticketNumber;
@@ -31,7 +31,7 @@ public class Ticket {
         return flight;
     }
 
-    public Date getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
@@ -51,7 +51,7 @@ public class Ticket {
         this.flight = flight;
     }
 
-    public void setDate(Date date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 }
