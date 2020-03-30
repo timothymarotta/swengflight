@@ -14,5 +14,6 @@ public class DatabaseReaderTester {
         assertEquals("Puerto Rico", DatabaseReader.getCountry("PR", "RQ"));
         assertEquals("Ashmore and Cartier Islands", DatabaseReader.getCountry(null, "AT"));
         assertEquals(null, DatabaseReader.getCountry("Dont", "Work"));
+        assertEquals(null, DatabaseReader.getCountry(null, null));
     }
 }
