@@ -8,4 +8,11 @@ public class DatabaseReaderTester {
         assertEquals("Boeing 787-10", DatabaseReader.getPlane("78J", "B78X"));
         assertEquals(null, DatabaseReader.getPlane("Dont", "Work"));
     }
+
+    @Test
+    public void getCountryTest() {
+        assertEquals("Puerto Rico", DatabaseReader.getCountry("PR", "RQ"));
+        assertEquals("Ashmore and Cartier Islands", DatabaseReader.getCountry(null, "AT"));
+        assertEquals(null, DatabaseReader.getCountry("Dont", "Work"));
+    }
 }

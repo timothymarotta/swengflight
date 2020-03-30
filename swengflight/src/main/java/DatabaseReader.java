@@ -40,4 +40,8 @@ public class DatabaseReader {
 
         return plane == null ? null : plane[0];
     }
+
+    public static String getCountry(String iso_code, String dafif_code) {
+        return null;
+    }
 }
