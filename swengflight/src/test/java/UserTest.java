@@ -1,7 +1,11 @@
 import org.junit.jupiter.api.Test;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -132,6 +136,42 @@ public class UserTest {
         assertEquals("123", user.getId());
         //checking that empty string fails
         assertThrows(IllegalArgumentException.class, ()-> user.setId(""));
+    }
+
+    /**
+     * NOTE: this test is manual and files must be looked at to confirm, could not think of an automated test for this.
+     */
+    @Test
+    public void exportDataTest(){
+        User testUser = new User("janesmith");
+        LinkedList<Ticket> testTickets = new LinkedList<>();
+        DateFormat dateFormat = new SimpleDateFormat("mm-dd-yyyy_HH:mm:ss");
+
+        //initialize test tickets
+        testTickets.add(new Ticket("first", "a", "1", null,  null));
+        testTickets.add(new Ticket("second", "b", "2", null, null));
+        testTickets.add(new Ticket("third", "c", "3", null, null));
+
+        //export with no trips
+        testUser.exportData(dateFormat.format(new Date()));
+
+        //export with one trip (single ticket)
+        Collection<Ticket> singleTicketTrip = new LinkedList<>();
+        singleTicketTrip.add(testTickets.get(0));
+        Trip testTrip01 = new Trip(singleTicketTrip);
+
+        testUser.addTrip(testTrip01);
+        testUser.exportData(dateFormat.format(new Date()));
+
+        //export with two trips (single ticket and double ticket)
+        Collection<Ticket> multiTicketTrip = new LinkedList<>();
+        multiTicketTrip.add(testTickets.get(1));
+        multiTicketTrip.add(testTickets.get(2));
+        Trip testTrip02 = new Trip(multiTicketTrip);
+
+        testUser.addTrip(testTrip02);
+        testUser.exportData(dateFormat.format(new Date()));
+
     }
 
 }

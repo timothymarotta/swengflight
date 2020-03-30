@@ -65,5 +65,13 @@ public class User<Trip> {
         return id;
     }
 
+    /**
+     * exports data from User object to .txt file
+     * @param filename name of .txt file
+     */
+    public void exportData(String filename){
+
+    }
+
 
 }
