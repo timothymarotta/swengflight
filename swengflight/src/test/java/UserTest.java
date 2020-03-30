@@ -2,10 +2,15 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Date;
+import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -141,9 +146,9 @@ public class UserTest {
     @Test
     public void checkFlightsTest(){
         User user = new User("test");
-        Flight houstonToMiami = new Flight("IAH", "A23", "MIA", "Houston", new Date(2020, 4, 12, 9, 25), new Date(2020, 4, 12, 9, 55));
+        Flight houstonToMiami = new Flight("IAH", "A23", "MIA", "Houston", LocalDateTime.of(2020, 4, 12, 9, 25).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 4, 12, 9, 55).atZone(ZoneId.of("America/Chicago")));
         //Testing with one flight one trip
-        Ticket testTicket = new Ticket("Josh Hayden", "American", "1234", houstonToMiami, new Date(2020, 4, 12));
+        Ticket testTicket = new Ticket("Josh Hayden", "American", "1234", houstonToMiami, LocalDateTime.of(2020, 4, 12, 0, 0).atZone(ZoneId.of("America/Chicago")));
         Collection<Ticket> ticks = new LinkedList<Ticket>();
         ticks.add(testTicket);
         Trip testTrip = new Trip(ticks);
@@ -154,13 +159,25 @@ public class UserTest {
         String expected = "Your flight from IAH to MIA boards at gate A23 on 4/12/2020 at 9:25 a.m., and departs on 4/12/2020 at 9:55 a.m..";
         assertEquals(expected, outContent.toString());
         //Testing with multiple flights in one trip
-        Flight miamiToCleveland = new Flight("MIA", "B13", "CLE", "Miami", new Date(2020, 5, 4, 14, 30), new Date(2020, 5, 4, 15, 0));
-        Ticket secondTicket = new Ticket("Josh Hayden", "American", "321", miamiToCleveland, new Date(2020, 5, 4));
+        Flight miamiToCleveland = new Flight("MIA", "B13", "CLE", "Miami",  LocalDateTime.of(2020, 5, 4, 8, 30).atZone(ZoneId.of("EST")), LocalDateTime.of(2020, 5, 4, 9, 0).atZone(ZoneId.of("EST")));
+        Ticket secondTicket = new Ticket("Josh Hayden", "American", "321", miamiToCleveland, LocalDateTime.of(2020, 5, 4, 0, 0).atZone(ZoneId.of("EST")));
         ticks.add(secondTicket);
         testTrip = new Trip(ticks);
         user = new User("test");
         user.addTrip(testTrip);
-        expected = expected + "\n" + "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 2:30 p.m., and departs on 5/4/2020 at 3:00 p.m..";
+        expected = expected + "\n" + "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 8:30 a.m., and departs on 5/4/2020 at 9:00 a.m..";
+        outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        user.checkFlights();
+        assertEquals(expected, outContent.toString());
+        //Testing with p.m.
+        miamiToCleveland = new Flight("MIA", "B13", "CLE", "Miami",  LocalDateTime.of(2020, 5, 4, 16, 30).atZone(ZoneId.of("EST")), LocalDateTime.of(2020, 5, 4, 16, 45).atZone(ZoneId.of("EST")));
+        testTicket = new Ticket("John Doe", "United", "123", miamiToCleveland, LocalDateTime.of(2020, 5, 4, 0, 0).atZone(ZoneId.of("EST")));
+        user = new User("test");
+        ticks = new LinkedList<Ticket>();
+        ticks.add(testTicket);
+        user.addTrip(new Trip(ticks));
+        expected  = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 4:30 p.m., and departs on 5/4/2020 at 4:45 p.m..";
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         user.checkFlights();
