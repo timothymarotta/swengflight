@@ -1,8 +1,10 @@
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 
-public class User<Trip> {
+public class User {
 
     LinkedList<Trip> trips;
     String id;//can't be empty string
@@ -20,6 +22,16 @@ public class User<Trip> {
     }
     //Should print flight information, when/where for boarding/departure, where for arrival for next trip
     public void checkFlights(){
+        Trip currentTrip = this.nextTrip();
+        Iterator<Ticket> itr = currentTrip.getTickets().iterator();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyy");
+        while (itr.hasNext()){
+            Ticket currentTicket = itr.next();
+            Flight currentFlight = currentTicket.getFlight();
+            String boardDateString = "plaaceholder";
+            String message = "Your flight from " + currentFlight.getAirport() + " to " + currentFlight.getArrivalCity() + " boards at gate " + currentFlight.getGate() + " on ";
+        }
+
 
     }
     //Adds a trip to the collection

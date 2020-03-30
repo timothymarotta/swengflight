@@ -190,6 +190,9 @@ public class UserTest {
         System.setOut(new PrintStream(outContent));
         user.checkFlights();
         assertEquals(expected, outContent.toString());
+        //Checking with empty trip list
+        assertThrows(IndexOutOfBoundsException.class, ()-> new User("Empty").checkFlights());
+
 
     }
 
