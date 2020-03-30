@@ -182,6 +182,15 @@ public class UserTest {
         System.setOut(new PrintStream(outContent));
         user.checkFlights();
         assertEquals(expected, outContent.toString());
+        //Testing with extra trip
+        ticks.add(secondTicket);
+        user.addTrip(new Trip(ticks));
+        expected  = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 4:30 p.m., and departs on 5/4/2020 at 4:45 p.m..";
+        outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        user.checkFlights();
+        assertEquals(expected, outContent.toString());
+
     }
 
 
