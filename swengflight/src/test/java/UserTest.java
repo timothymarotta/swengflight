@@ -1,7 +1,11 @@
 import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -133,5 +137,37 @@ public class UserTest {
         //checking that empty string fails
         assertThrows(IllegalArgumentException.class, ()-> user.setId(""));
     }
+
+    @Test
+    public void checkFlightsTest(){
+        User user = new User("test");
+        Flight houstonToMiami = new Flight("IAH", "A23", "MIA", "Houston", new Date(2020, 4, 12, 9, 25), new Date(2020, 4, 12, 9, 55));
+        //Testing with one flight one trip
+        Ticket testTicket = new Ticket("Josh Hayden", "American", "1234", houstonToMiami, new Date(2020, 4, 12));
+        Collection<Ticket> ticks = new LinkedList<Ticket>();
+        ticks.add(testTicket);
+        Trip testTrip = new Trip(ticks);
+        user.addTrip(testTrip);
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        user.checkFlights();
+        String expected = "Your flight from IAH to MIA boards at gate A23 on 4/12/2020 at 9:25 a.m., and departs on 4/12/2020 at 9:55 a.m..";
+        assertEquals(expected, outContent.toString());
+        //Testing with multiple flights in one trip
+        Flight miamiToCleveland = new Flight("MIA", "B13", "CLE", "Miami", new Date(2020, 5, 4, 14, 30), new Date(2020, 5, 4, 15, 0));
+        Ticket secondTicket = new Ticket("Josh Hayden", "American", "321", miamiToCleveland, new Date(2020, 5, 4));
+        ticks.add(secondTicket);
+        testTrip = new Trip(ticks);
+        user = new User("test");
+        user.addTrip(testTrip);
+        expected = expected + "\n" + "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 2:30 p.m., and departs on 5/4/2020 at 3:00 p.m..";
+        outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        user.checkFlights();
+        assertEquals(expected, outContent.toString());
+    }
+
+
+
 
 }

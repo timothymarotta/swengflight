@@ -18,7 +18,7 @@ public class User<Trip> {
 
 
     }
-    //Should print flight information, when/where for departure, when/where for arrival
+    //Should print flight information, when/where for boarding/departure, where for arrival for next trip
     public void checkFlights(){
 
     }
