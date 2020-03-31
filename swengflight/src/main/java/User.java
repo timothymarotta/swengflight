@@ -1,3 +1,4 @@
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,8 +29,12 @@ public class User {
         while (itr.hasNext()){
             Ticket currentTicket = itr.next();
             Flight currentFlight = currentTicket.getFlight();
-            String boardDateString = "plaaceholder";
-            String message = "Your flight from " + currentFlight.getAirport() + " to " + currentFlight.getArrivalCity() + " boards at gate " + currentFlight.getGate() + " on ";
+            String boardDateString = getDateString(currentFlight.boardingTime);
+            String departDateString = getDateString(currentFlight.departureTime);
+            String boardTimeString = getTimeString(currentFlight.boardingTime);
+            String departTimeString = getTimeString(currentFlight.departureTime);
+            String message = "Your flight from " + currentFlight.getAirport() + " to " + currentFlight.getArrivalCity() + " boards at gate " + currentFlight.getGate() + " on " + boardDateString + " at " + boardTimeString + ", and departs on " + departDateString + " at " + departTimeString + ".";
+            System.out.println(message);
         }
 
 
@@ -75,6 +80,35 @@ public class User {
     //returns id
     public String getId(){
         return id;
+    }
+
+    public static String getDateString(ZonedDateTime date){
+        return Integer.toString(date.getMonthValue()) + '/' + Integer.toString(date.getDayOfMonth()) + '/' + Integer.toString(date.getYear());
+    }
+
+    public static String getTimeString(ZonedDateTime date){
+        String ampm = "";
+        int hour = date.getHour();
+        String minuteStr = Integer.toString(date.getMinute());
+        if (hour > 12){
+            hour -= 12;
+            ampm = "p.m.";
+        }
+        else if (hour == 0){
+            hour = 12;
+            ampm = "a.m.";
+        }
+        else if (hour == 12){
+            ampm = "p.m.";
+        }
+        else{
+            ampm = "a.m.";
+        }
+        if (minuteStr.length() == 1){
+            minuteStr = "0" + minuteStr;
+        }
+        return Integer.toString(hour) + ":" + minuteStr + " " + ampm;
+
     }
 
 
