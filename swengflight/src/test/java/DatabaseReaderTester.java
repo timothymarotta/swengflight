@@ -16,4 +16,9 @@ public class DatabaseReaderTester {
         assertEquals(null, DatabaseReader.getCountry("Dont", "Work"));
         assertEquals(null, DatabaseReader.getCountry(null, null));
     }
+
+    @Test
+    public void getAirlineTest() {
+        assertEquals("All Nippon Airlines", DatabaseReader.getAirline("ANA"));
+    }
 }

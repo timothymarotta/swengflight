@@ -8,8 +8,10 @@ public class DatabaseReader {
 
     private static String planeDataPath = "data/planes.dat";
     private static String countryDataPath = "data/countries.dat";
+    private static String airlineDataPath = "data/airlines.dat";
     private static List<String[]> planes;
     private static List<String[]> countries;
+    private static List<String[]> airlines;
 
 
     public static String getPlane(String IATACode, String ICAOCode) {
@@ -68,5 +70,9 @@ public class DatabaseReader {
                 .orElse(null);
 
         return country == null ? null : country[0];
+    }
+
+    public static String getAirline(String alias) {
+        return null;
     }
 }
