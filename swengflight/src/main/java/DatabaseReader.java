@@ -9,28 +9,17 @@ public class DatabaseReader {
     private static String planeDataPath = "data/planes.dat";
     private static String countryDataPath = "data/countries.dat";
     private static String airlineDataPath = "data/airlines.dat";
+    private static String airportDataPath = "data/airports.dat";
     private static List<String[]> planes;
     private static List<String[]> countries;
     private static List<String[]> airlines;
+    private static List<String[]> airports;
 
 
     public static String getPlane(String IATACode, String ICAOCode) {
         //Cache data in planes list. Only read file the first time
         if(planes == null) {
-            planes = new ArrayList<String[]>();
-
-            try {
-                // Create an object of filereader
-                // class with CSV file as a parameter.
-                FileReader filereader = new FileReader(planeDataPath);
-
-                // create csvReader object passing
-                // file reader as a parameter
-                CSVReader csvReader = new CSVReader(filereader);
-                planes = (csvReader.readAll());
-            } catch (Exception e) {
-                return null;
-            }
+            planes = readDataFromFile(planeDataPath);
         }
 
         //Use java stream api to filter list for correct plane
@@ -47,20 +36,7 @@ public class DatabaseReader {
         if(iso_code == null && dafif_code == null) return null;
 
         if(countries == null) {
-            countries = new ArrayList<String[]>();
-
-            try {
-                // Create an object of filereader
-                // class with CSV file as a parameter.
-                FileReader filereader = new FileReader(countryDataPath);
-
-                // create csvReader object passing
-                // file reader as a parameter
-                CSVReader csvReader = new CSVReader(filereader);
-                countries = (csvReader.readAll());
-            } catch (Exception e) {
-                return null;
-            }
+            countries = readDataFromFile(countryDataPath);
         }
 
         //Use java stream api to filter list for correct plane
@@ -73,6 +49,38 @@ public class DatabaseReader {
     }
 
     public static String getAirline(String alias) {
+        if(airlines == null) {
+            airlines = readDataFromFile(airlineDataPath);
+        }
+
+        //Use java stream api to filter list for correct plane
+        String[] airline = airlines.stream()
+                .filter((p) -> p[4].equals(alias))
+                .findFirst()
+                .orElse(null);
+
+        return airline == null ? null : airline[1];
+    }
+
+    public static String getAirport(String IATACode, String ICAOCode) {
         return null;
+    }
+
+    public static List<String[]> readDataFromFile(String path) {
+        List<String[]> output = new ArrayList<String[]>();
+
+        try {
+            // Create an object of filereader
+            // class with CSV file as a parameter.
+            FileReader filereader = new FileReader(path);
+
+            // create csvReader object passing
+            // file reader as a parameter
+            CSVReader csvReader = new CSVReader(filereader);
+            output = (csvReader.readAll());
+        } catch (Exception e) {
+            return null;
+        }
+        return output;
     }
 }
