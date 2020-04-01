@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -149,9 +150,9 @@ public class UserTest {
         DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy_HH:mm:ss");
 
         //initialize test tickets
-        testTickets.add(new Ticket("first", "a", "1", null,  null));
-        testTickets.add(new Ticket("second", "b", "2", null, null));
-        testTickets.add(new Ticket("third", "c", "3", null, null));
+        testTickets.add(new Ticket("first", "a", "1", new Flight("EWR", "A","Detroit", "Newark", ZonedDateTime.now(), ZonedDateTime.now().plusMinutes(10), ZonedDateTime.now().plusHours(3)),  null));
+        testTickets.add(new Ticket("second", "b", "2", new Flight("DTW", "A","Los Angeles", "Detroit", ZonedDateTime.now(), ZonedDateTime.now().plusMinutes(10), ZonedDateTime.now().plusHours(3)), null));
+        testTickets.add(new Ticket("third", "c", "3", new Flight("LAX", "A","Newark", "Los Angeles", ZonedDateTime.now(), ZonedDateTime.now().plusMinutes(10), ZonedDateTime.now().plusHours(3)), null));
 
         //export with no trips
         testUser.exportData(dateFormat.format(new Date()));

@@ -1,3 +1,4 @@
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 public class Flight {
@@ -5,17 +6,19 @@ public class Flight {
     String gate;
     String arrivalCity;
     String departureCity;
-    Date boardingTime;
-    Date departureTime;
+    ZonedDateTime boardingTime;
+    ZonedDateTime departureTime;
+    ZonedDateTime arrivalTime;
 
     Flight(String airport, String gate, String arrivalCity,
-           String departureCity, Date boardingTime, Date departureTime) {
+           String departureCity, ZonedDateTime boardingTime, ZonedDateTime departureTime, ZonedDateTime arrivalTime) {
         this.airport = airport;
         this.gate = gate;
         this.arrivalCity = arrivalCity;
         this.departureCity = departureCity;
         this.boardingTime = boardingTime;
         this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
     }
 
     public String getAirport() {
@@ -34,12 +37,16 @@ public class Flight {
         return departureCity;
     }
 
-    public Date getBoardingTime() {
+    public ZonedDateTime getBoardingTime() {
         return boardingTime;
     }
 
-    public Date getDepartureTime() {
+    public ZonedDateTime getDepartureTime() {
         return departureTime;
+    }
+
+    public ZonedDateTime getArrivalTime(){
+        return arrivalTime;
     }
 
     public void setAirport(String airport) {
@@ -58,11 +65,15 @@ public class Flight {
         this.departureCity = departureCity;
     }
 
-    public void setBoardingTime(Date boardingTime) {
+    public void setBoardingTime(ZonedDateTime boardingTime) {
         this.boardingTime = boardingTime;
     }
 
-    public void setDepartureTime(Date departureTime) {
+    public void setDepartureTime(ZonedDateTime departureTime) {
         this.departureTime = departureTime;
+    }
+
+    public void setArrivalTime(ZonedDateTime arrivalTime){
+        this.arrivalTime = arrivalTime;
     }
 }
