@@ -88,8 +88,16 @@ public class User {
                 printStream.println("Passenger name: " + next.getName());
                 printStream.println("Airline: " + next.getAirline());
                 printStream.println("Ticket Number: " + next.getTicketNumber());
-                printStream.println("Flight: " + next.getFlight());
                 printStream.println("Date: " + next.getDate());
+                printStream.println("Flight: " + next.getFlight());
+                Flight nextFlight = next.getFlight();
+                printStream.println("\tAirport: " + nextFlight.getAirport());
+                printStream.println("\tGate: " + nextFlight.getGate());
+                printStream.println("\tArrival City: " + nextFlight.getArrivalCity());
+                printStream.println("\tDeparture City: " + nextFlight.getDepartureCity());
+                printStream.println("\tBoarding Time: " + nextFlight.getBoardingTime());
+                printStream.println("\tDeparture Time: " + nextFlight.getDepartureTime());
+                printStream.println("\tArrival Time: " + nextFlight.getArrivalTime());
                 printStream.println();
             }
             printStream.println("---");
