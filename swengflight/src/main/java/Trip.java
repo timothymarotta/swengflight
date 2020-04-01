@@ -15,7 +15,4 @@ public class Trip {
     //getBoardingInfo() is called, since that includes boarding time and gate number,
     //I think that a string would make sense
 
-    public Collection<Ticket> getTickets(){
-        return tickets;
-    }
 }
