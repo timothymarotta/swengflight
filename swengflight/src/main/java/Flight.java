@@ -8,15 +8,17 @@ public class Flight {
     String departureCity;
     ZonedDateTime boardingTime;
     ZonedDateTime departureTime;
+    ZonedDateTime arrivalTime;
 
     Flight(String airport, String gate, String arrivalCity,
-           String departureCity, ZonedDateTime boardingTime, ZonedDateTime departureTime) {
+           String departureCity, ZonedDateTime boardingTime, ZonedDateTime departureTime, ZonedDateTime arrivalTime) {
         this.airport = airport;
         this.gate = gate;
         this.arrivalCity = arrivalCity;
         this.departureCity = departureCity;
         this.boardingTime = boardingTime;
         this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
     }
 
     public String getFlightNumber() {
@@ -47,8 +49,12 @@ public class Flight {
         return departureTime;
     }
 
-    public void setFlightNumberNumber(String flightNumber) {
-this.flightNumber = flightNumber;
+    public ZonedDateTime getArrivalTime(){
+        return arrivalTime;
+    }
+  
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
     }
 
     public void setAirport(String airport) {
@@ -73,5 +79,9 @@ this.flightNumber = flightNumber;
 
     public void setDepartureTime(ZonedDateTime departureTime) {
         this.departureTime = departureTime;
+    }
+
+    public void setArrivalTime(ZonedDateTime arrivalTime){
+        this.arrivalTime = arrivalTime;
     }
 }

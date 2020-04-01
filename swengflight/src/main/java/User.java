@@ -1,9 +1,10 @@
+import java.io.IOException;
+import java.io.PrintStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 public class User {
 
@@ -82,6 +83,47 @@ public class User {
         return id;
     }
 
+    /**
+     * exports data from User object to .txt file
+     * @param filename name of .txt file
+     */
+    public void exportData(String filename) throws IOException {
+        PrintStream printStream = new PrintStream(filename);
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+
+        //print user ID and time of export
+        printStream.println("User ID: " + getId());
+        printStream.println("Time of export: " + dateFormat.format(new Date()));
+        printStream.println();
+
+        //print flights associated with each trip
+        for (int i = 0; i < trips.size(); i++){
+            Trip nextTrip = trips.get(i);
+            Collection<Ticket> tickets = nextTrip.getTickets();
+            for(Ticket next: tickets){
+                printStream.println("Passenger name: " + next.getName());
+                printStream.println("Airline: " + next.getAirline());
+                printStream.println("Ticket Number: " + next.getTicketNumber());
+                printStream.println("Date: " + next.getDate());
+                printStream.println("Flight: " + next.getFlight());
+                Flight nextFlight = next.getFlight();
+                printStream.println("\tAirport: " + nextFlight.getAirport());
+                printStream.println("\tGate: " + nextFlight.getGate());
+                printStream.println("\tArrival City: " + nextFlight.getArrivalCity());
+                printStream.println("\tDeparture City: " + nextFlight.getDepartureCity());
+                printStream.println("\tBoarding Time: " + nextFlight.getBoardingTime());
+                printStream.println("\tDeparture Time: " + nextFlight.getDepartureTime());
+                printStream.println("\tArrival Time: " + nextFlight.getArrivalTime());
+                printStream.println();
+            }
+            printStream.println("---");
+            printStream.println();
+            printStream.flush();
+        }
+        //close file
+        printStream.close();
+    }
+  
     public static String getDateString(ZonedDateTime date){
         return Integer.toString(date.getMonthValue()) + '/' + Integer.toString(date.getDayOfMonth()) + '/' + Integer.toString(date.getYear());
     }
@@ -108,7 +150,6 @@ public class User {
             minuteStr = "0" + minuteStr;
         }
         return Integer.toString(hour) + ":" + minuteStr + " " + ampm;
-
     }
 
 
