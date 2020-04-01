@@ -3,6 +3,8 @@ import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class User {
 
@@ -20,8 +22,22 @@ public class User {
 
 
     }
-    //Should print flight information, when/where for departure, when/where for arrival
+    //Should print flight information, when/where for boarding/departure, where for arrival for next trip
     public void checkFlights(){
+        Trip currentTrip = this.nextTrip();
+        Iterator<Ticket> itr = currentTrip.getTickets().iterator();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyy");
+        while (itr.hasNext()){
+            Ticket currentTicket = itr.next();
+            Flight currentFlight = currentTicket.getFlight();
+            String boardDateString = getDateString(currentFlight.boardingTime);
+            String departDateString = getDateString(currentFlight.departureTime);
+            String boardTimeString = getTimeString(currentFlight.boardingTime);
+            String departTimeString = getTimeString(currentFlight.departureTime);
+            String message = "Your flight from " + currentFlight.getAirport() + " to " + currentFlight.getArrivalCity() + " boards at gate " + currentFlight.getGate() + " on " + boardDateString + " at " + boardTimeString + ", and departs on " + departDateString + " at " + departTimeString + ".";
+            System.out.println(message);
+        }
+
 
     }
     //Adds a trip to the collection
@@ -106,6 +122,34 @@ public class User {
         }
         //close file
         printStream.close();
+    }
+  
+    public static String getDateString(ZonedDateTime date){
+        return Integer.toString(date.getMonthValue()) + '/' + Integer.toString(date.getDayOfMonth()) + '/' + Integer.toString(date.getYear());
+    }
+
+    public static String getTimeString(ZonedDateTime date){
+        String ampm = "";
+        int hour = date.getHour();
+        String minuteStr = Integer.toString(date.getMinute());
+        if (hour > 12){
+            hour -= 12;
+            ampm = "p.m.";
+        }
+        else if (hour == 0){
+            hour = 12;
+            ampm = "a.m.";
+        }
+        else if (hour == 12){
+            ampm = "p.m.";
+        }
+        else{
+            ampm = "a.m.";
+        }
+        if (minuteStr.length() == 1){
+            minuteStr = "0" + minuteStr;
+        }
+        return Integer.toString(hour) + ":" + minuteStr + " " + ampm;
     }
 
 

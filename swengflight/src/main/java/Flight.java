@@ -1,7 +1,7 @@
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 public class Flight {
+    String flightNumber;
     String airport;
     String gate;
     String arrivalCity;
@@ -19,6 +19,10 @@ public class Flight {
         this.boardingTime = boardingTime;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
     }
 
     public String getAirport() {
@@ -47,6 +51,10 @@ public class Flight {
 
     public ZonedDateTime getArrivalTime(){
         return arrivalTime;
+    }
+  
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
     }
 
     public void setAirport(String airport) {
