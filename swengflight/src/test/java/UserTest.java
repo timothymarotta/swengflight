@@ -217,7 +217,7 @@ public class UserTest {
         ticks = new LinkedList<Ticket>();
         ticks.add(testTicket);
         user.addTrip(new Trip(ticks));
-        expected  = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 4:30 p.m., departs on 5/4/2020 at 4:45 p.m., and arrives on 5/4/2020 at 7:30 p.m. CLE time.\n";
+        expected  = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 4:30 p.m., departs on 5/4/2020 at 4:45 p.m., and arrives in CLE on 5/4/2020 at 7:30 p.m. CLE time.\n";
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         user.checkFlights();
@@ -226,7 +226,7 @@ public class UserTest {
         Collection<Ticket> ticksTwo = new LinkedList<Ticket>();
         ticksTwo.add(secondTicket);
         user.addTrip(new Trip(ticks));
-        expected  = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 4:30 p.m., departs on 5/4/2020 at 4:45 p.m., and arrives on 5/4/2020 at 7:30 p.m. CLE time.\n";
+        expected  = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 4:30 p.m., departs on 5/4/2020 at 4:45 p.m., and arrives in CLE on 5/4/2020 at 7:30 p.m. CLE time.\n";
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         user.checkFlights();

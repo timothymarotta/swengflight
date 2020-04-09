@@ -30,13 +30,7 @@ public class User {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyy");
         while (itr.hasNext()){
             Ticket currentTicket = itr.next();
-            Flight currentFlight = currentTicket.getFlight();
-            String boardDateString = getDateString(currentFlight.boardingTime);
-            String departDateString = getDateString(currentFlight.departureTime);
-            String boardTimeString = getTimeString(currentFlight.boardingTime);
-            String departTimeString = getTimeString(currentFlight.departureTime);
-            String message = "Your flight from " + currentFlight.getAirport() + " to " + currentFlight.getArrivalCity() + " boards at gate " + currentFlight.getGate() + " on " + boardDateString + " at " + boardTimeString + ", and departs on " + departDateString + " at " + departTimeString + ".";
-            System.out.println(message);
+            System.out.println(getUpdateString(currentTicket));
         }
 
 
