@@ -154,7 +154,15 @@ public class User {
     }
 
     public static String getUpdateString(Ticket ticket){
-        return "";
+        Flight currentFlight = ticket.getFlight();
+        String boardDateString = getDateString(currentFlight.boardingTime);
+        String departDateString = getDateString(currentFlight.departureTime);
+        String boardTimeString = getTimeString(currentFlight.boardingTime);
+        String departTimeString = getTimeString(currentFlight.departureTime);
+        String arrivalDateString = getDateString(currentFlight.arrivalTime);
+        String arrivalTimeString = getTimeString(currentFlight.arrivalTime);
+        String message = "Your flight from " + currentFlight.getAirport() + " to " + currentFlight.getArrivalCity() + " boards at gate " + currentFlight.getGate() + " on " + boardDateString + " at " + boardTimeString + ", departs on " + departDateString + " at " + departTimeString + ", and arrives in " + currentFlight.getArrivalCity() + " on " + arrivalDateString + " at " + arrivalTimeString + " " + currentFlight.getArrivalCity() + " time.";
+        return message;
     }
 
 
