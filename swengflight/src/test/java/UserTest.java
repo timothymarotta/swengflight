@@ -236,5 +236,35 @@ public class UserTest {
 
 
     }
+    @Test
+    void getUpdateStringTest(){
+        Flight houstonToMiami = new Flight("IAH", "A23", "MIA", "Houston", LocalDateTime.of(2020, 4, 12, 9, 25).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 4, 12, 9, 55).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 4, 12, 11, 45).atZone(ZoneId.of("America/Puerto_Rico")));
+        //basic test
+        Ticket testTicket = new Ticket("Josh Hayden", "American", "1234", houstonToMiami, LocalDateTime.of(2020, 4, 12, 0, 0).atZone(ZoneId.of("America/Chicago")));
+        String updateString = User.getUpdateString(testTicket);
+        String expected = "Your flight from IAH to MIA boards at gate A23 on 4/12/2020 at 9:25 a.m., departs on 4/12/2020 at 9:55 a.m., and arrives in MIA on 4/12/2020 at 11:45 p.m. MIA time.";
+        assertEquals(expected, updateString);
+        //test with noon
+        Flight miamiToCleveland = new Flight("MIA", "B13", "CLE", "Miami",  LocalDateTime.of(2020, 5, 4, 8, 30).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2020, 5, 4, 9, 0).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2020, 5, 4, 12, 30).atZone(ZoneId.of("America/Puerto_Rico")));
+        testTicket = new Ticket("Josh Hayden", "American", "321", miamiToCleveland, LocalDateTime.of(2020, 5, 4, 0, 0).atZone(ZoneId.of("America/Puerto_Rico")));
+        expected = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 8:30 a.m., departs on 5/4/2020 at 9:00 a.m., and arrives in CLE on 5/4/2020 at 12:30 p.m. CLE time.";
+        updateString = User.getUpdateString(testTicket);
+        assertEquals(expected, updateString);
+        //test with midnight
+        miamiToCleveland = new Flight("MIA", "B13", "CLE", "Miami",  LocalDateTime.of(2020, 5, 4, 19, 30).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2020, 5, 4, 20, 0).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2020, 5, 4, 0, 30).atZone(ZoneId.of("America/Puerto_Rico")));
+        testTicket = new Ticket("Josh Hayden", "American", "321", miamiToCleveland, LocalDateTime.of(2020, 5, 4, 0, 0).atZone(ZoneId.of("America/Puerto_Rico")));
+        expected = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 7:30 p.m., departs on 5/4/2020 at 8:00 p.m., and arrives in CLE on 5/4/2020 at 12:30 a.m. CLE time.";
+        updateString = User.getUpdateString(testTicket);
+        assertEquals(expected, updateString);
+        //test with different dates for boarding, departure, and arrival
+        miamiToCleveland = new Flight("MIA", "B13", "CLE", "Miami",  LocalDateTime.of(2020, 5, 4, 19, 30).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2021, 6, 5, 20, 0).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2022, 7, 7, 20, 30).atZone(ZoneId.of("America/Puerto_Rico")));
+        testTicket = new Ticket("Josh Hayden", "American", "321", miamiToCleveland, LocalDateTime.of(2020, 5, 4, 0, 0).atZone(ZoneId.of("America/Puerto_Rico")));
+        expected = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 7:30 p.m., departs on 6/5/2021 at 8:00 p.m., and arrives in CLE on 7/7/2022 at 8:30 0.m. CLE time.";
+        updateString = User.getUpdateString(testTicket);
+        assertEquals(expected, updateString);
+
+
+
+    }
 
 }

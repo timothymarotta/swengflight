@@ -6,6 +6,7 @@ import java.util.*;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+
 public class User {
 
     LinkedList<Trip> trips;
@@ -150,6 +151,10 @@ public class User {
             minuteStr = "0" + minuteStr;
         }
         return Integer.toString(hour) + ":" + minuteStr + " " + ampm;
+    }
+
+    public static String getUpdateString(Ticket ticket){
+        return "";
     }
 
 
