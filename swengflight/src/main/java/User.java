@@ -29,13 +29,7 @@ public class User implements Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyy");
         while (itr.hasNext()){
             Ticket currentTicket = itr.next();
-            Flight currentFlight = currentTicket.getFlight();
-            String boardDateString = getDateString(currentFlight.boardingTime);
-            String departDateString = getDateString(currentFlight.departureTime);
-            String boardTimeString = getTimeString(currentFlight.boardingTime);
-            String departTimeString = getTimeString(currentFlight.departureTime);
-            String message = "Your flight from " + currentFlight.getAirport() + " to " + currentFlight.getArrivalCity() + " boards at gate " + currentFlight.getGate() + " on " + boardDateString + " at " + boardTimeString + ", and departs on " + departDateString + " at " + departTimeString + ".";
-            System.out.println(message);
+            System.out.println(getUpdateString(currentTicket));
         }
 
 
@@ -124,6 +118,18 @@ public class User implements Serializable {
             minuteStr = "0" + minuteStr;
         }
         return Integer.toString(hour) + ":" + minuteStr + " " + ampm;
+    }
+
+    public static String getUpdateString(Ticket ticket){
+        Flight currentFlight = ticket.getFlight();
+        String boardDateString = getDateString(currentFlight.boardingTime);
+        String departDateString = getDateString(currentFlight.departureTime);
+        String boardTimeString = getTimeString(currentFlight.boardingTime);
+        String departTimeString = getTimeString(currentFlight.departureTime);
+        String arrivalDateString = getDateString(currentFlight.arrivalTime);
+        String arrivalTimeString = getTimeString(currentFlight.arrivalTime);
+        String message = "Your flight from " + currentFlight.getAirport() + " to " + currentFlight.getArrivalCity() + " boards at gate " + currentFlight.getGate() + " on " + boardDateString + " at " + boardTimeString + ", departs on " + departDateString + " at " + departTimeString + ", and arrives in " + currentFlight.getArrivalCity() + " on " + arrivalDateString + " at " + arrivalTimeString + " " + currentFlight.getArrivalCity() + " time.";
+        return message;
     }
 
 
