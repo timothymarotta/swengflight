@@ -23,14 +23,17 @@ public class User implements Serializable {
 
     }
     //Should print flight information, when/where for boarding/departure, where for arrival for next trip
-    public void checkFlights(){
+    public List<String> checkFlights(){
         Trip currentTrip = this.nextTrip();
         Iterator<Ticket> itr = currentTrip.getTickets().iterator();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyy");
+        List<String> toReturn = new LinkedList<String>();
         while (itr.hasNext()){
             Ticket currentTicket = itr.next();
-            System.out.println(getUpdateString(currentTicket));
+            toReturn.add(getUpdateString(currentTicket));
         }
+
+        return toReturn;
 
 
     }
