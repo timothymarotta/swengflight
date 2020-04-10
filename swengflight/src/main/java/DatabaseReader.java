@@ -6,14 +6,16 @@ import java.util.List;
 
 public class DatabaseReader {
 
-    private static String planeDataPath = "data/planes.dat";
-    private static String countryDataPath = "data/countries.dat";
-    private static String airlineDataPath = "data/airlines.dat";
-    private static String airportDataPath = "data/airports.dat";
+    private final static String planeDataPath = "data/planes.dat";
+    private final static String countryDataPath = "data/countries.dat";
+    private final static String airlineDataPath = "data/airlines.dat";
+    private final static String airportDataPath = "data/airports.dat";
+    private final static String routeDataPath = "data/routes.dat";
     private static List<String[]> planes;
     private static List<String[]> countries;
     private static List<String[]> airlines;
     private static List<String[]> airports;
+    private static List<String[]> routes;
 
 
     public static String getPlane(String IATACode, String ICAOCode) {
@@ -63,7 +65,16 @@ public class DatabaseReader {
     }
 
     public static String getAirport(String IATACode, String ICAOCode) {
-        return null;
+        if(airports == null) {
+            airports = readDataFromFile(airportDataPath);
+        }
+
+        String[] airport = airports.stream()
+                .filter((p) -> p[4].equals(IATACode) && p[5].equals(ICAOCode))
+                .findFirst()
+                .orElse(null);
+
+        return airport == null ? null : airport[1];
     }
 
     public static List<String[]> readDataFromFile(String path) {
