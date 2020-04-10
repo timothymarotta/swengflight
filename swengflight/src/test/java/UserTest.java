@@ -151,7 +151,7 @@ public class UserTest {
      * NOTE: this test is manual and files must be looked at to confirm, could not think of an automated test for this.
      */
     @Test
-    public void exportDataTest() throws IOException {
+    public void exportDataTest(){
         User testUser = new User("janesmith");
         LinkedList<Ticket> testTickets = new LinkedList<>();
         DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy_HH:mm:ss");
