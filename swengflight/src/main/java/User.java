@@ -19,8 +19,6 @@ public class User implements Serializable {
         else{
             this.id = id;
         }
-
-
     }
     //Should print flight information, when/where for boarding/departure, where for arrival for next trip
     public void checkFlights(){
@@ -75,21 +73,6 @@ public class User implements Serializable {
     //returns id
     public String getId(){
         return id;
-    }
-
-    /**
-     * exports data from User object to JSON file
-     * @param filename name of JSON file
-     */
-    public void exportData(String filename){
-        ObjectMapper mapper = new ObjectMapper();
-        File output = new File(filename +".json");
-
-        try {
-            mapper.writeValue(output, this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
   
     public static String getDateString(ZonedDateTime date){
