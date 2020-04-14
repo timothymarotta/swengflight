@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 public class FileIOTest {
+
     /**
      * NOTE: this test is manual and files must be looked at to confirm, could not think of an automated test for this.
      */
@@ -64,7 +65,8 @@ public class FileIOTest {
 
         //reimport
         User toCheck = JsonUtil.fromJsonFile("src/test/resources/" + now +".json", User.class);
-        assertEquals(toCheck, testUser);
+        assertEquals(testUser.getId(), toCheck.getId());
+        assertEquals(testUser.getTrips().size(), toCheck.getTrips().size());
 
 
         //export with one trip (single ticket)
@@ -77,7 +79,8 @@ public class FileIOTest {
 
         //reimport
         toCheck = JsonUtil.fromJsonFile("src/test/resources/" + now +".json", User.class);
-//        assertEquals(toCheck, testUser);
+        assertEquals(testUser.getId(), toCheck.getId());
+        assertEquals(testUser.getTrips().size(), toCheck.getTrips().size());
 
         //export with two trips (single ticket and double ticket)
         Collection<Ticket> multiTicketTrip = new LinkedList<>();
@@ -90,7 +93,8 @@ public class FileIOTest {
 
         //reimport
         toCheck = JsonUtil.fromJsonFile("src/test/resources/" + now +".json", User.class);
-//        assertEquals(toCheck, testUser);
+        assertEquals(testUser.getId(), toCheck.getId());
+        assertEquals(testUser.getTrips().size(), toCheck.getTrips().size());
 
     }
 }

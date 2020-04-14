@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paranamer.ParanamerModule;
 
 import java.io.File;
@@ -19,12 +20,14 @@ public class JsonUtil {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.registerModule(new ParanamerModule());
+        mapper.registerModule(new JavaTimeModule());
         mapper.writeValue(new File(filename), objectToSerialize);
     }
 
     public static <T> T fromJsonFile(String filename, Class<? extends T> classToBeCreated) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ParanamerModule());
+        mapper.registerModule(new JavaTimeModule());
         return  mapper.readValue(new File(filename), classToBeCreated);
     }
 

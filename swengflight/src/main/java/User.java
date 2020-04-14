@@ -1,15 +1,16 @@
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class User implements Serializable {
 
     LinkedList<Trip> trips;
     String id;//can't be empty string
+
+    public User(){
+        //default constructor
+    }
 
     public User(String id){
         trips = new LinkedList<Trip>();
@@ -115,5 +116,13 @@ public class User implements Serializable {
         return message;
     }
 
+//    JSON FUNCTIONS
+    private void setTrips(){
 
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (this == obj);
+    }
 }
