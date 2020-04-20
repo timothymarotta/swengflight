@@ -15,6 +15,7 @@ public class Flight_UI {
     private static Scanner in;
 
     public static void main(String[] args) throws IOException {
+
         currentUIState = FlightState.Landing;
         setUpUser();
 
