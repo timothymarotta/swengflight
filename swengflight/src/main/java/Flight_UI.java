@@ -36,16 +36,33 @@ public class Flight_UI {
     }
 
     static void handleLanding(){
+        in = new Scanner(System.in);
+        System.out.print("Enter 1 to view current trips, or 2 to add a new trip: ");
+        String response = in.next();
+        while (!(response.equals("1") || (response.equals("2")))){
+            System.out.print("Invalid entry, please enter 1 or 2: ");
+            response = in.next();
+        }
+        if (response.equals("1")){
+            currentUIState = FlightState.ViewTrips;
+        }
+        else{
+            currentUIState = FlightState.AddTrip;
+        }
 
     }
 
     static void handleViewTrips(){
+        //Placeholder for now
+        System.out.println("View trips");
 
     }
     static void handleGetFlightInfo(){
 
     }
     static void handleAddTrip(){
+        //Placeholder for now
+        System.out.println("Add Trip");
 
     }
     static void handleAddFlightToTrip(){
