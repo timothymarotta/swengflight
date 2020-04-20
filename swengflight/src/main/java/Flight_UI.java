@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collection;
@@ -12,7 +14,8 @@ public class Flight_UI {
     private static FlightState currentUIState;
     private static Scanner in;
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws IOException {
+
         currentUIState = FlightState.Landing;
         setUpUser();
 
@@ -31,8 +34,27 @@ public class Flight_UI {
         }
     }
 
-    static void setUpUser(){
+    static void setUpUser() throws IOException {
+        //find the most recent file in src/main/resources
+        File directory = new File("src/main/resources");
+        File[] files = directory.listFiles(File::isFile);
+        long lastModifiedTime = Long.MIN_VALUE;
+        File chosenFile = null;
 
+        if (files != null) {
+            for (File file : files) {
+                if (file.lastModified() > lastModifiedTime) {
+                    chosenFile = file;
+                    lastModifiedTime = file.lastModified();
+                }
+            }
+        }
+
+        if (chosenFile == null) {
+            Flight_UI.user = new User();
+        } else {
+            Flight_UI.user = JsonUtil.fromJsonFile("src/main/resources/" + chosenFile.getName(), User.class);
+        }
     }
 
     static void handleLanding(){
