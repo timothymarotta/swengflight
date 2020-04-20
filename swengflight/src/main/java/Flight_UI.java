@@ -13,6 +13,7 @@ public class Flight_UI {
     private static Scanner in;
 
     public static void main(String[] args)  {
+        currentUIState = FlightState.Landing;
         setUpUser();
 
         while (true) {
