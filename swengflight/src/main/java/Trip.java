@@ -3,7 +3,12 @@ import java.util.Collection;
 public class Trip {
     Collection<Ticket> tickets;
 
+    public Trip(){}
     public Trip(Collection<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public void setTickets(Collection<Ticket> tickets) {
         this.tickets = tickets;
     }
 

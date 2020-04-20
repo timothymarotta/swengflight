@@ -1,15 +1,16 @@
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class User implements Serializable {
 
     LinkedList<Trip> trips;
     String id;//can't be empty string
+
+    public User(){
+        //default constructor
+    }
 
     public User(String id){
         trips = new LinkedList<Trip>();
@@ -19,8 +20,6 @@ public class User implements Serializable {
         else{
             this.id = id;
         }
-
-
     }
     //Should print flight information, when/where for boarding/departure, where for arrival for next trip
     public List<String> checkFlights(){
@@ -79,21 +78,6 @@ public class User implements Serializable {
     public String getId(){
         return id;
     }
-
-    /**
-     * exports data from User object to JSON file
-     * @param filename name of JSON file
-     */
-    public void exportData(String filename){
-        ObjectMapper mapper = new ObjectMapper();
-        File output = new File(filename +".json");
-
-        try {
-            mapper.writeValue(output, this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
   
     public static String getDateString(ZonedDateTime date){
         return Integer.toString(date.getMonthValue()) + '/' + Integer.toString(date.getDayOfMonth()) + '/' + Integer.toString(date.getYear());
@@ -135,5 +119,13 @@ public class User implements Serializable {
         return message;
     }
 
+//    JSON FUNCTIONS
+    private void setTrips(){
 
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (this == obj);
+    }
 }
