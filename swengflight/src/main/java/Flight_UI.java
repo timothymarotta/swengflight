@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collection;
@@ -13,13 +14,14 @@ public class Flight_UI {
     private static User user;
     private static FlightState currentUIState;
     private static Scanner in;
+    private static boolean isRunning;
 
     public static void main(String[] args) throws IOException {
-
+        isRunning = true;
         currentUIState = FlightState.Landing;
         setUpUser();
 
-        while (true) {
+        while (isRunning) {
             if(currentUIState ==  FlightState.Landing){
                 handleLanding();
             } else if(currentUIState == FlightState.ViewTrips) {
@@ -57,19 +59,20 @@ public class Flight_UI {
         }
     }
 
-    static void handleLanding(){
+    static void handleLanding() throws IOException {
         in = new Scanner(System.in);
-        System.out.print("Enter 1 to view current trips, or 2 to add a new trip: ");
+        System.out.print("Enter 1 to view current trips, or 2 to add a new trip, or q to quit: ");
         String response = in.next();
-        while (!(response.equals("1") || (response.equals("2")))){
-            System.out.print("Invalid entry, please enter 1 or 2: ");
+        while (!(response.equals("1") || response.equals("2") || response.equals("q"))){
+            System.out.print("Invalid entry, please enter 1, 2, or q: ");
             response = in.next();
         }
         if (response.equals("1")){
             currentUIState = FlightState.ViewTrips;
-        }
-        else{
+        } else if (response.equals("2")){
             currentUIState = FlightState.AddTrip;
+        } else {
+            isRunning = false;
         }
 
     }
@@ -77,6 +80,7 @@ public class Flight_UI {
     static void handleViewTrips(){
         //Placeholder for now
         System.out.println("View trips");
+        currentUIState = FlightState.Landing;
 
     }
     static void handleGetFlightInfo(){
@@ -85,6 +89,7 @@ public class Flight_UI {
     static void handleAddTrip(){
         //Placeholder for now
         System.out.println("Add Trip");
+        currentUIState = FlightState.Landing;
 
     }
     static void handleAddFlightToTrip(){
