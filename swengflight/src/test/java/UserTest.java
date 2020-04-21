@@ -37,14 +37,14 @@ public class UserTest {
         User user = new User("123");
         Collection<Ticket> tickets = new LinkedList<Ticket>();
         tickets.add(new Ticket("first", "a", "1", null,  null));
-        Trip firstTrip = new Trip(tickets);
+        Trip firstTrip = new Trip(tickets, "first");
         tickets = new LinkedList<Ticket>();
         tickets.add(new Ticket("second", "b", "2", null, null));
-        Trip secondTrip = new Trip(tickets);
+        Trip secondTrip = new Trip(tickets, "second");
         tickets = new LinkedList<Ticket>();
         tickets.add(new Ticket("third", "c", "3", null, null));
         tickets.add(new Ticket("fourth", "d", "4", null, null));
-        Trip multipleTicketTrip = new Trip(tickets);
+        Trip multipleTicketTrip = new Trip(tickets, "third");
         //checking that adding basic trips is fine
         user.addTrip(firstTrip);
         user.addTrip(secondTrip);
@@ -67,14 +67,14 @@ public class UserTest {
         User user = new User("a");
         Collection<Ticket> tickets = new LinkedList<Ticket>();
         tickets.add(new Ticket("first", "a", "1", null,  null));
-        Trip firstTrip = new Trip(tickets);
+        Trip firstTrip = new Trip(tickets, "first");
         tickets = new LinkedList<Ticket>();
         tickets.add(new Ticket("second", "b", "2", null, null));
-        Trip secondTrip = new Trip(tickets);
+        Trip secondTrip = new Trip(tickets, "second");
         tickets = new LinkedList<Ticket>();
         tickets.add(new Ticket("third", "c", "3", null, null));
         tickets.add(new Ticket("fourth", "d", "4", null, null));
-        Trip multipleTicketTrip = new Trip(tickets);
+        Trip multipleTicketTrip = new Trip(tickets, "third");
         //checking with just one ticket
         user.addTrip(firstTrip);
         user.removeTrip();
@@ -116,14 +116,14 @@ public class UserTest {
         User user = new User("a");
         Collection<Ticket> tickets = new LinkedList<Ticket>();
         tickets.add(new Ticket("first", "a", "1", null,  null));
-        Trip firstTrip = new Trip(tickets);
+        Trip firstTrip = new Trip(tickets, "first");
         tickets = new LinkedList<Ticket>();
         tickets.add(new Ticket("second", "b", "2", null, null));
-        Trip secondTrip = new Trip(tickets);
+        Trip secondTrip = new Trip(tickets, "second");
         tickets = new LinkedList<Ticket>();
         tickets.add(new Ticket("third", "c", "3", null, null));
         tickets.add(new Ticket("fourth", "d", "4", null, null));
-        Trip multipleTicketTrip = new Trip(tickets);
+        Trip multipleTicketTrip = new Trip(tickets, "third");
         //checking with empty list
         assertEquals(null, user.nextTrip());
         user.addTrip(firstTrip);
@@ -152,7 +152,7 @@ public class UserTest {
         Ticket testTicket = new Ticket("Josh Hayden", "American", "1234", houstonToMiami, LocalDateTime.of(2020, 4, 12, 0, 0).atZone(ZoneId.of("America/Chicago")));
         Collection<Ticket> ticks = new LinkedList<Ticket>();
         ticks.add(testTicket);
-        Trip testTrip = new Trip(ticks);
+        Trip testTrip = new Trip(ticks, "first");
         user.addTrip(testTrip);
         List<String> result = user.checkFlights();
         List<String> expectedList = new LinkedList<String>();
@@ -163,7 +163,7 @@ public class UserTest {
         Flight miamiToCleveland = new Flight("MIA", "B13", "CLE", "Miami",  LocalDateTime.of(2020, 5, 4, 8, 30).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2020, 5, 4, 9, 0).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2020, 5, 4, 12, 30).atZone(ZoneId.of("America/Puerto_Rico"))); //Not actually Miami's time zone but doesn't really matter for this test
         Ticket secondTicket = new Ticket("Josh Hayden", "American", "321", miamiToCleveland, LocalDateTime.of(2020, 5, 4, 0, 0).atZone(ZoneId.of("America/Puerto_Rico")));
         ticks.add(secondTicket);
-        testTrip = new Trip(ticks);
+        testTrip = new Trip(ticks, "second");
         user = new User("test");
         user.addTrip(testTrip);
         expected = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 8:30 a.m., departs on 5/4/2020 at 9:00 a.m., and arrives in CLE on 5/4/2020 at 12:30 p.m. CLE time.";
@@ -176,7 +176,7 @@ public class UserTest {
         user = new User("test");
         ticks = new LinkedList<Ticket>();
         ticks.add(testTicket);
-        user.addTrip(new Trip(ticks));
+        user.addTrip(new Trip(ticks, "third"));
         expected  = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 4:30 p.m., departs on 5/4/2020 at 4:45 p.m., and arrives in CLE on 5/4/2020 at 7:30 p.m. CLE time.";
         expectedList = new LinkedList<String>();
         expectedList.add(expected);
@@ -185,7 +185,7 @@ public class UserTest {
         //Testing with extra trip
         Collection<Ticket> ticksTwo = new LinkedList<Ticket>();
         ticksTwo.add(secondTicket);
-        user.addTrip(new Trip(ticks));
+        user.addTrip(new Trip(ticks, "fourth"));
         expected  = "Your flight from MIA to CLE boards at gate B13 on 5/4/2020 at 4:30 p.m., departs on 5/4/2020 at 4:45 p.m., and arrives in CLE on 5/4/2020 at 7:30 p.m. CLE time.";
         expectedList = new LinkedList<String>();
         expectedList.add(expected);

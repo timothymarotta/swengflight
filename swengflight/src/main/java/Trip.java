@@ -2,10 +2,17 @@ import java.util.Collection;
 
 public class Trip {
     Collection<Ticket> tickets;
+    String name;
 
     public Trip(){}
     public Trip(Collection<Ticket> tickets) {
         this.tickets = tickets;
+        name = "";
+    }
+
+    public Trip(Collection<Ticket> tickets, String name){
+        this.tickets = tickets;
+        this.name = name;
     }
 
     public void setTickets(Collection<Ticket> tickets) {
@@ -14,6 +21,14 @@ public class Trip {
 
     public Collection<Ticket> getTickets(){
         return tickets;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getName(){
+        return name;
     }
 
     //need to figure out how we are going to give all the boarding info back when

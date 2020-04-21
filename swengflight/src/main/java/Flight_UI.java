@@ -17,6 +17,7 @@ public class Flight_UI {
     private static boolean isRunning;
 
     public static void main(String[] args) throws IOException {
+
         isRunning = true;
         currentUIState = FlightState.Landing;
         setUpUser();
@@ -96,13 +97,21 @@ public class Flight_UI {
 
     }
     //Create basic user for testing
-    static void testingUser(){
+    static void testingUser() throws IOException{
         User user = new User("Test");
         Collection<Ticket> tickets1 = new LinkedList<Ticket>();
         Flight houstonToMiami = new Flight("IAH", "A23", "MIA", "Houston", LocalDateTime.of(2020, 4, 12, 9, 25).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 4, 12, 9, 55).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 4, 12, 11, 45).atZone(ZoneId.of("America/Puerto_Rico")));
         tickets1.add(new Ticket("Josh Hayden", "American", "1234", houstonToMiami, LocalDateTime.of(2020, 4, 12, 0, 0).atZone(ZoneId.of("America/Chicago"))));
         Flight miamiToHouston = new Flight("MIA", "B13", "IAH", "Miami",  LocalDateTime.of(2020, 4, 19, 8, 30).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2020, 4, 19, 9, 0).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2020, 4, 19, 12, 30).atZone(ZoneId.of("America/Puerto_Rico")));
         tickets1.add(new Ticket("Josh Hayden", "American", "2345", miamiToHouston, LocalDateTime.of(2020, 4, 19, 0, 0).atZone(ZoneId.of("America/Chicago"))));
-        Trip trip1 = new Trip(tickets1);
+        Trip trip1 = new Trip(tickets1, "Houston To Miami");
+        Collection<Ticket> tickets2 = new LinkedList<Ticket>();
+        Flight ithacaToCleveland = new Flight("ITH", "B42", "CLE", "Ithaca", LocalDateTime.of(2020, 7, 27, 14, 20).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 7, 27, 14, 55).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 7, 27, 17, 15).atZone(ZoneId.of("America/Chicago")));
+        tickets2.add(new  Ticket("Josh Hayden","United","4058",  ithacaToCleveland, LocalDateTime.of(2020,  7, 27, 0, 0).atZone(ZoneId.of("America/Chicago"))));
+        Trip trip2 = new Trip(tickets2, "Ithaca To Cleveland");
+        user.addTrip(trip1);
+        user.addTrip(trip2);
+        JsonUtil.toJsonFile("testingUser", user);
+
     }
 }
