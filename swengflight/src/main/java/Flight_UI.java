@@ -3,9 +3,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
 
 enum FlightState {Landing, ViewTrips, GetFlightInfo, AddTrip, AddFlightToTrip}
 
@@ -54,7 +52,9 @@ public class Flight_UI {
         }
 
         if (chosenFile == null) {
-            Flight_UI.user = new User();
+            //default for now
+//            Flight_UI.user = new User();
+            Flight_UI.user = testingUser();
         } else {
             Flight_UI.user = JsonUtil.fromJsonFile("src/main/resources/" + chosenFile.getName(), User.class);
         }
@@ -80,9 +80,58 @@ public class Flight_UI {
 
     static void handleViewTrips(){
         //Placeholder for now
-        System.out.println("View trips");
-        currentUIState = FlightState.Landing;
+        System.out.println("Your current trips are:");
+        Collection<Trip> trips = user.getTrips();
+        Iterator<Trip> tripItr = trips.iterator();
+        int i = 0;
+        while (tripItr.hasNext()){
+            Trip currentTrip = tripItr.next();
+            i += 1;
+            System.out.println(Integer.toString(i) + ": " + currentTrip.getName());
+        }
+        System.out.print("For information on a trip press 1, to update a trip press 2, to delete a trip press 3, and to return to the home page press q: ");
+        String response = in.next();
+        while (!(response.equals("1") || response.equals("2") || response.equals("3") || response.equals("q"))){
+            System.out.print("Invalid entry, please enter 1, 2, 3, or q: ");
+            response = in.next();
+        }
+        String targetAction;
+        if (response.equals("q")){
+            currentUIState = FlightState.Landing;
+            return;
+        }
+        else{
+            targetAction = response;
+        }
+        System.out.print("Select a trip by entering the number next to the trips name: ");
+        boolean validTrip = false;
+        String tripResponse = in.next();
+        for (int j = 0; j < trips.size(); ++j){
+            if (tripResponse.equals(Integer.toString(j + 1))){
+                validTrip = true;
+            }
+        }
+        while (validTrip = false){
+            System.out.println("Please enter a valid trip: ");
+            tripResponse = in.next();
+            for (int j = 0; j < trips.size(); ++i){
+                if (tripResponse.equals(Integer.toString(j + 1))){
+                    validTrip = true;
+                }
+            }
 
+        }
+        if (targetAction.equals("1")){
+            List<String> strings = user.checkFlights(Integer.parseInt(tripResponse) - 1);
+            for (int j = 0; j < strings.size(); ++j){
+                System.out.println(strings.get(j));
+            }
+            currentUIState = FlightState.Landing;
+        }
+        else{
+            System.out.println("Not available right now");
+            currentUIState = FlightState.Landing;
+        }
     }
     static void handleGetFlightInfo(){
 
@@ -97,7 +146,7 @@ public class Flight_UI {
 
     }
     //Create basic user for testing
-    static void testingUser() throws IOException{
+    static User testingUser() throws IOException{
         User user = new User("Test");
         Collection<Ticket> tickets1 = new LinkedList<Ticket>();
         Flight houstonToMiami = new Flight("IAH", "A23", "MIA", "Houston", LocalDateTime.of(2020, 4, 12, 9, 25).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 4, 12, 9, 55).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 4, 12, 11, 45).atZone(ZoneId.of("America/Puerto_Rico")));
@@ -111,7 +160,8 @@ public class Flight_UI {
         Trip trip2 = new Trip(tickets2, "Ithaca To Cleveland");
         user.addTrip(trip1);
         user.addTrip(trip2);
-        JsonUtil.toJsonFile("testingUser", user);
+        JsonUtil.toJsonFile("testingUser.json", user);
+        return user;
 
     }
 }
