@@ -31,11 +31,21 @@ public class User implements Serializable {
             Ticket currentTicket = itr.next();
             toReturn.add(getUpdateString(currentTicket));
         }
-
         return toReturn;
-
-
     }
+
+    public List<String> checkFlights(int index){
+        Trip currentTrip = getTrip(index);
+        Iterator<Ticket> itr = currentTrip.getTickets().iterator();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyy");
+        List<String> toReturn = new LinkedList<String>();
+        while (itr.hasNext()){
+            Ticket currentTicket = itr.next();
+            toReturn.add(getUpdateString(currentTicket));
+        }
+        return toReturn;
+    }
+
     //Adds a trip to the collection
     public void addTrip(Trip newTrip){
         trips.add(newTrip);
@@ -77,6 +87,11 @@ public class User implements Serializable {
     //returns id
     public String getId(){
         return id;
+    }
+
+    public Trip getTrip(int index){
+        Trip currentTrip = this.trips.get(index);
+        return currentTrip;
     }
   
     public static String getDateString(ZonedDateTime date){
