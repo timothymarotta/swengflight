@@ -79,7 +79,6 @@ public class Flight_UI {
     }
 
     static void handleViewTrips(){
-        //Placeholder for now
         System.out.println("Your current trips are:");
         Collection<Trip> trips = user.getTrips();
         Iterator<Trip> tripItr = trips.iterator();
