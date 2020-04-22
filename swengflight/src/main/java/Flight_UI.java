@@ -103,35 +103,28 @@ public class Flight_UI {
         else{
             targetAction = response;
         }
-        System.out.print("Select a trip by entering the number next to the trips name: ");
-        boolean validTrip = false;
-        String tripResponse = in.next();
-        for (int j = 0; j < trips.size(); ++j){
-            if (tripResponse.equals(Integer.toString(j + 1))){
-                validTrip = true;
+        int tripIndex = 0;
+        while (tripIndex < 1 || tripIndex > trips.size()) {
+            try {
+                System.out.print("Select a trip by entering the number next to the trips name: ");
+                String tripResponse = in.next();
+                tripIndex = Integer.parseInt(tripResponse);
+            } catch (NumberFormatException e) {
             }
-        }
-        while (validTrip = false){
-            System.out.println("Please enter a valid trip: ");
-            tripResponse = in.next();
-            for (int j = 0; j < trips.size(); ++i){
-                if (tripResponse.equals(Integer.toString(j + 1))){
-                    validTrip = true;
-                }
-            }
-
         }
         if (targetAction.equals("1")){
-            List<String> strings = user.checkFlights(Integer.parseInt(tripResponse) - 1);
+            List<String> strings = user.checkFlights(tripIndex - 1);
             for (int j = 0; j < strings.size(); ++j){
                 System.out.println(strings.get(j));
             }
-            currentUIState = FlightState.Landing;
         }
-        else{
-            System.out.println("Not available right now");
-            currentUIState = FlightState.Landing;
+        else if (targetAction.equals("2")){
+            System.out.println("Update trip, not available right now");
         }
+        else if (targetAction.equals("3")){
+            System.out.println("Delete trip, not available right now");
+        }
+        currentUIState = FlightState.Landing;
     }
     static void handleGetFlightInfo(){
 
