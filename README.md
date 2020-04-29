@@ -9,3 +9,4 @@
 * [Sprint 1 Retrospective](https://docs.google.com/document/d/1InW32ab1cII2HuPy9XrOjJLBGbWDnFYrNb5U3iwBfys/edit?usp=sharing)
 *[Sprint 2 Class Diagram](https://app.diagrams.net/#G1XUFm42ZooOK_4lY0Wq6WItzMFaVVEVIN)
 *[Sprint 2 State Diagram](https://www.draw.io/#G1kUUERJb6dvph7llyc3IU7UOa2ZASImxw)
+* [Sprint 3 Scenarios](https://docs.google.com/document/d/1dVZQCRO0O7vipTIR9wpT24y3p_Q6REF0cJTRvisslac/edit?usp=sharing)
