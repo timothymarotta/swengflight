@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
-enum FlightState {Landing, ViewTrips, GetFlightInfo, AddTrip, AddFlightToTrip}
+enum FlightState {Landing, ViewTrips, GetFlightInfo, AddTrip, AddFlightToTrip, RemoveFlightFromTrip, DeleteTrip}
 
 public class Flight_UI {
 
@@ -31,7 +31,12 @@ public class Flight_UI {
                 handleAddTrip();
             } else if(currentUIState == FlightState.AddFlightToTrip) {
                 handleAddFlightToTrip();
+            } else if (currentUIState == FlightState.RemoveFlightFromTrip){
+                handleRemoveFlightFromTrip();
+            } else if (currentUIState == FlightState.DeleteTrip){
+                handleDeleteTrip();
             }
+
         }
     }
 
@@ -178,6 +183,12 @@ public class Flight_UI {
         currentUIState = FlightState.Landing;
     }
     static void handleAddFlightToTrip(){
+
+    }
+    static void handleRemoveFlightFromTrip(){
+
+    }
+    static void handleDeleteTrip(){
 
     }
     //Create basic user for testing
