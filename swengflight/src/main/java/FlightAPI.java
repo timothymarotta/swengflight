@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 import java.nio.Buffer;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,15 @@ public class FlightAPI {
         return null;
     }
 
+    public static Flight buildFlightFromData(APIFlight data) {
+        ZonedDateTime boardingTime = ZonedDateTime.parse(data.departure.estimated);
+        boardingTime.minusMinutes(30);
+        ZonedDateTime departureTime = ZonedDateTime.parse(data.departure.estimated);
+        ZonedDateTime arrivalTime = ZonedDateTime.parse(data.arrival.estimated);
+
+        return new Flight(data.departure.airport, data.departure.gate, data.arrival.airport, data.departure.airport, boardingTime, departureTime, arrivalTime);
+    }
+
     public static Flight getFlightByNumber(String flightNumber) throws Exception{
         String data = getFlightJSONByNumber(flightNumber);
         ObjectMapper mapper = new ObjectMapper();
@@ -39,8 +49,7 @@ public class FlightAPI {
         APIFlight flight = response.data[0];
 
 
-        System.out.println(data);
-        return null;
+        return buildFlightFromData(flight);
     }
 
     public static String getFlightJSONByNumber(String flightNumber) throws Exception{
