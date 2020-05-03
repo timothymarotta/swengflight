@@ -193,7 +193,7 @@ public class Flight_UI {
         Trip trip2 = new Trip(tickets2, "Ithaca To Cleveland");
         user.addTrip(trip1);
         user.addTrip(trip2);
-        JsonUtil.toJsonFile("testingUser.json", user);
+        //JsonUtil.toJsonFile("testingUser.json", user);
         return user;
 
     }
