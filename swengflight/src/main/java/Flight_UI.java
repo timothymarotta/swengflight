@@ -130,22 +130,52 @@ public class Flight_UI {
     }
     static void handleAddTrip(){
         //Placeholder for now
-        System.out.println("Enter the name of the trip you would like to create, or type q to return home");
+        System.out.print("Enter the name of the trip you would like to create, or type q to return home: ");
         Scanner in = new Scanner(System.in);
 
         String tripOrQuit = in.next();
 
-        if (tripOrQuit.equals("q")){
-            currentUIState = FlightState.Landing;
-        } else {
-            System.out.println("Your trip, " + tripOrQuit + ", must contain at least one ticket. Please select at least one flight from below.");
-            // ask for date, city, and departure or arrival
-            // use saved information to search for top flights
-            // ask to select a flight by number of type next to search again
-            // ask to add another flight or say done
-                // returns to main page
-            currentUIState = FlightState.Landing;
+        if (!tripOrQuit.equals("q")) {
+            boolean loop = true;
+            while (loop){
+                System.out.println("Your trip, " + tripOrQuit + ", must contain at least one ticket.");
+                // ask for date, city, and departure or arrival
+                System.out.print("Enter a Date (format: YYYY-MM-DD): ");
+                String inDate = in.next();
+                // TODO check inDate
+
+                // handles logic of departure or arrival at API request creation
+                System.out.print("Search by departure or arrival city? Enter 1 for departure and 2 for arrival: ");
+                int inCityType = in.nextInt();
+                // TODO check about handling exception for line above
+
+                while (inCityType != 1 && inCityType != 2) {
+                    System.out.println("Invalid option. Please type 1 for departure or 2 for arrival.");
+                    inCityType = in.nextInt();
+                }
+
+                // TODO what other geo information do we need for an API call?
+                System.out.print("Enter city: ");
+                String inCity = in.next();
+
+
+                // use saved information to search for top flights
+                // TODO how do we search for new flights?
+
+                // ask to add another flight or say done
+                System.out.print("Trip added. Would you like to add another (y/n): ");
+                String again = in.next();
+                while (!again.equals("y") && !again.equals("f")){
+                    System.out.print("Invalid option. Type y to add another ticket or n to finish the trip.: ");
+                    again = in.next();
+                }
+                if (again.equals("f")){
+                    loop = false;
+                }
+            }
         }
+        // returns to main page
+        currentUIState = FlightState.Landing;
     }
     static void handleAddFlightToTrip(){
 
