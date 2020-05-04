@@ -130,9 +130,22 @@ public class Flight_UI {
     }
     static void handleAddTrip(){
         //Placeholder for now
-        System.out.println("Add Trip");
-        currentUIState = FlightState.Landing;
+        System.out.println("Enter the name of the trip you would like to create, or type q to return home");
+        Scanner in = new Scanner(System.in);
 
+        String tripOrQuit = in.next();
+
+        if (tripOrQuit.equals("q")){
+            currentUIState = FlightState.Landing;
+        } else {
+            System.out.println("Your trip, " + tripOrQuit + ", must contain at least one ticket. Please select at least one flight from below.");
+            // ask for date, city, and departure or arrival
+            // use saved information to search for top flights
+            // ask to select a flight by number of type next to search again
+            // ask to add another flight or say done
+                // returns to main page
+            currentUIState = FlightState.Landing;
+        }
     }
     static void handleAddFlightToTrip(){
 
