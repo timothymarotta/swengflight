@@ -148,7 +148,30 @@ public class Flight_UI {
 
     }
     static void handleDeleteTrip(){
-        System.out.println("Handle Delete Trip, not working for now");
+        LinkedList<Trip> trips = (LinkedList<Trip>) user.getTrips();
+        int tripIndex = 0;
+        while (tripIndex < 1 || tripIndex > trips.size()) {
+            try {
+                System.out.print("Select a trip to delete by entering the number next to the trips name, or type q to return to the landing page: ");
+                String tripResponse = in.next();
+                if (tripResponse.equals("q")){
+                    currentUIState = FlightState.Landing;
+                    return;
+                }
+                tripIndex = Integer.parseInt(tripResponse);
+            } catch (NumberFormatException e) {
+            }
+        }
+        Trip currentTrip = trips.get(tripIndex-1);
+        System.out.println("You have chosen to delete " + currentTrip.getName());
+        System.out.print("Enter y to confirm deletion or enter any other key to return to landing: ");
+        String confirmResponse = in.next();
+        if (confirmResponse.equals("y")){
+            user.removeTrip(tripIndex -  1);
+        }
+        else{
+            System.out.println("Deletion cancelled");
+        }
         currentUIState = FlightState.Landing;
     }
     static void handleUpdateTrip(){
@@ -170,7 +193,7 @@ public class Flight_UI {
         Trip trip2 = new Trip(tickets2, "Ithaca To Cleveland");
         user.addTrip(trip1);
         user.addTrip(trip2);
-        JsonUtil.toJsonFile("testingUser.json", user);
+        //JsonUtil.toJsonFile("testingUser.json", user);
         return user;
 
     }
