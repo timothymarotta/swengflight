@@ -13,6 +13,7 @@ public class FlightAPITester {
 
     @Test
     public void testGetFlightByNumber() throws Exception {
-        FlightAPI.getFlightByNumber("1161");
+        Flight f = FlightAPI.getFlightByNumber("1161");
+        assertEquals(f.airport, "Arturo Merino Benitez");
     }
 }
