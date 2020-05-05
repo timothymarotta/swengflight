@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
-enum FlightState {Landing, ViewTrips, GetFlightInfo, AddTrip, AddFlightToTrip}
+enum FlightState {Landing, ViewTrips, GetFlightInfo, AddTrip, AddFlightToTrip, RemoveFlightFromTrip, DeleteTrip, UpdateTrip}
 
 public class Flight_UI {
 
@@ -31,7 +31,14 @@ public class Flight_UI {
                 handleAddTrip();
             } else if(currentUIState == FlightState.AddFlightToTrip) {
                 handleAddFlightToTrip();
+            } else if (currentUIState == FlightState.RemoveFlightFromTrip){
+                handleRemoveFlightFromTrip();
+            } else if (currentUIState == FlightState.DeleteTrip){
+                handleDeleteTrip();
+            } else if (currentUIState == FlightState.UpdateTrip){
+                handleUpdateTrip();
             }
+
         }
     }
 
@@ -102,28 +109,28 @@ public class Flight_UI {
         else{
             targetAction = response;
         }
-        int tripIndex = 0;
-        while (tripIndex < 1 || tripIndex > trips.size()) {
-            try {
-                System.out.print("Select a trip by entering the number next to the trips name: ");
-                String tripResponse = in.next();
-                tripIndex = Integer.parseInt(tripResponse);
-            } catch (NumberFormatException e) {
-            }
-        }
         if (targetAction.equals("1")){
+            int tripIndex = 0;
+            while (tripIndex < 1 || tripIndex > trips.size()) {
+                try {
+                    System.out.print("Select a trip by entering the number next to the trips name: ");
+                    String tripResponse = in.next();
+                    tripIndex = Integer.parseInt(tripResponse);
+                } catch (NumberFormatException e) {
+                }
+            }
             List<String> strings = user.checkFlights(tripIndex - 1);
             for (int j = 0; j < strings.size(); ++j){
                 System.out.println(strings.get(j));
             }
+            currentUIState = FlightState.Landing;
         }
         else if (targetAction.equals("2")){
-            System.out.println("Update trip, not available right now");
+            currentUIState = FlightState.UpdateTrip;
         }
         else if (targetAction.equals("3")){
-            System.out.println("Delete trip, not available right now");
+            currentUIState = FlightState.DeleteTrip;
         }
-        currentUIState = FlightState.Landing;
     }
     static void handleGetFlightInfo(){
 
@@ -136,6 +143,17 @@ public class Flight_UI {
     }
     static void handleAddFlightToTrip(){
 
+    }
+    static void handleRemoveFlightFromTrip(){
+
+    }
+    static void handleDeleteTrip(){
+        System.out.println("Handle Delete Trip, not working for now");
+        currentUIState = FlightState.Landing;
+    }
+    static void handleUpdateTrip(){
+        System.out.println("Handle Update Trip, not working for now");
+        currentUIState = FlightState.Landing;
     }
     //Create basic user for testing
     static User testingUser() throws IOException{
