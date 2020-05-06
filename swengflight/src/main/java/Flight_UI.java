@@ -137,9 +137,26 @@ public class Flight_UI {
     }
     static void handleAddTrip(){
         //Placeholder for now
-        System.out.println("Add Trip");
-        currentUIState = FlightState.Landing;
+        System.out.print("Enter the name of the trip you would like to create, or type q to return home: ");
+        Scanner in = new Scanner(System.in);
+        String tripOrQuit = in.next();
 
+        if (!tripOrQuit.equals("q")) {
+            System.out.print("Would you like to add tickets to your trip now? (y/n): ");
+            String choice = in.next();
+            while (!choice.equals("y") && !choice.equals("n")){
+                System.out.print("Invalid option. Please type y if you would like to add tickets or n if you want to return home: ");
+                choice = in.next();
+            }
+            user.addTrip(new Trip(null, tripOrQuit));
+
+            if (choice.equals("y")){
+                currentUIState = FlightState.AddFlightToTrip;
+            }
+
+        }
+        // returns to main page
+        currentUIState = FlightState.Landing;
     }
     static void handleAddFlightToTrip(){
 

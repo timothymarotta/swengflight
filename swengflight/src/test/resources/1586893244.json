@@ -1,0 +1,53 @@
+{
+  "trips" : [ {
+    "tickets" : [ {
+      "name" : "first",
+      "airline" : "a",
+      "ticketNumber" : "1",
+      "flight" : {
+        "flightNumber" : null,
+        "airport" : "EWR",
+        "gate" : "A",
+        "arrivalCity" : "Detroit",
+        "departureCity" : "Newark",
+        "boardingTime" : 1586893244.831865000,
+        "departureTime" : 1586893844.835196000,
+        "arrivalTime" : 1586904044.835301000
+      },
+      "date" : null
+    } ]
+  }, {
+    "tickets" : [ {
+      "name" : "second",
+      "airline" : "b",
+      "ticketNumber" : "2",
+      "flight" : {
+        "flightNumber" : null,
+        "airport" : "DTW",
+        "gate" : "A",
+        "arrivalCity" : "Los Angeles",
+        "departureCity" : "Detroit",
+        "boardingTime" : 1586893244.835433000,
+        "departureTime" : 1586893844.835454000,
+        "arrivalTime" : 1586904044.835505000
+      },
+      "date" : null
+    }, {
+      "name" : "third",
+      "airline" : "c",
+      "ticketNumber" : "3",
+      "flight" : {
+        "flightNumber" : null,
+        "airport" : "LAX",
+        "gate" : "A",
+        "arrivalCity" : "Newark",
+        "departureCity" : "Los Angeles",
+        "boardingTime" : 1586893244.835556000,
+        "departureTime" : 1586893844.835574000,
+        "arrivalTime" : 1586904044.835608000
+      },
+      "date" : null
+    } ]
+  } ],
+  "id" : "janesmith"
+}
