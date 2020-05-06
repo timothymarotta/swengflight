@@ -43,6 +43,10 @@ public class FlightAPI {
         String depIATA = DatabaseReader.getIATAFromAirport(depAirport);
         String arrIATA = DatabaseReader.getIATAFromAirport(arrAirport);
 
+        if(depIATA == null || arrIATA == null) {
+            return new ArrayList<Flight>();
+        }
+
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("dep_iata", depIATA);
         parameters.put("arr_iata", arrIATA);

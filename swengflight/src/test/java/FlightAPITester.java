@@ -29,5 +29,8 @@ public class FlightAPITester {
             assertEquals(f.getArrivalCity(), "Los Angeles International");
 //            System.out.println(f.getDepartureCity() + " to " + f.getArrivalCity());
         }
+        flights = FlightAPI.getFlightByDepArr("no", "dont");
+        assertEquals(0, flights.size());
+
     }
 }
