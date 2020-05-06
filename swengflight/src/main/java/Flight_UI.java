@@ -1,11 +1,10 @@
 import java.io.File;
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
-enum FlightState {Landing, ViewTrips, GetFlightInfo, AddTrip, AddFlightToTrip, RemoveFlightFromTrip, DeleteTrip, UpdateTrip}
+enum FlightState {Landing, ViewTrips, GetFlightInfo, AddTrip, AddTicketToTrip, RemoveTicketFromTrip, DeleteTrip, UpdateTrip}
 
 public class Flight_UI {
 
@@ -29,10 +28,10 @@ public class Flight_UI {
                 handleGetFlightInfo();
             } else if(currentUIState == FlightState.AddTrip) {
                 handleAddTrip();
-            } else if(currentUIState == FlightState.AddFlightToTrip) {
-                handleAddFlightToTrip();
-            } else if (currentUIState == FlightState.RemoveFlightFromTrip){
-                handleRemoveFlightFromTrip();
+            } else if(currentUIState == FlightState.AddTicketToTrip) {
+                handleAddTicketToTrip();
+            } else if (currentUIState == FlightState.RemoveTicketFromTrip){
+                handleRemoveTicketFromTrip();
             } else if (currentUIState == FlightState.DeleteTrip){
                 handleDeleteTrip();
             } else if (currentUIState == FlightState.UpdateTrip){
@@ -141,11 +140,72 @@ public class Flight_UI {
         currentUIState = FlightState.Landing;
 
     }
-    static void handleAddFlightToTrip(){
+    static void handleAddTicketToTrip(){
+        System.out.println("Your current trips are are:\n");
+        int i = 0;
+        ArrayList<Trip> tripList = new ArrayList<>();
+
+        //iterates through the trips, user selects a valid one
+        for (Trip trip : user.getTrips()) {
+            i += 1;
+            tripList.add(trip);
+            System.out.println(i + ": " + trip.getName());
+        }
+
+        int response = 0;
+        while (response < 1 || response > i) {
+            try {
+                System.out.println("Enter the number of the trip that you want to add a ticket to.\n");
+                response = Integer.parseInt(in.next());
+            } catch (NumberFormatException e) { }
+        }
+        Trip trip = tripList.get(response);
+
+        //TODO: add ticket to trip
 
     }
-    static void handleRemoveFlightFromTrip(){
+    static void handleRemoveTicketFromTrip(){
+        System.out.println("Your current trips are are:\n");
+        int i = 0;
+        ArrayList<Trip> tripList = new ArrayList<>();
 
+        //iterates through the trips, user selects a valid one
+        for (Trip trip : user.getTrips()) {
+            i += 1;
+            tripList.add(trip);
+            System.out.println(i + ": " + trip.getName());
+        }
+
+        int response = 0;
+        while (response < 1 || response > i) {
+            try {
+                System.out.println("Enter the number of the trip that contains the flight you want to remove.\n");
+                response = Integer.parseInt(in.next());
+            } catch (NumberFormatException e) { }
+        }
+
+        Trip trip = tripList.get(response);
+        i = 0;
+        ArrayList<Ticket> ticketList = new ArrayList<>();
+        System.out.println("Your tickets in this trip are:\n");
+
+        for (Ticket ticket : trip.getTickets()) {
+            i += 1;
+            ticketList.add(ticket);
+            System.out.println(i + ": " + ticket.getName());
+        }
+
+        response = 0;
+        while (response < 1 || response > i) {
+            try {
+                System.out.println("Enter the number of the ticket that contains the flight you want to remove.\n");
+                response = Integer.parseInt(in.next());
+            } catch (NumberFormatException e) { }
+        }
+
+        trip.removeTicket(ticketList.get(response));
+        System.out.println("Ticket removed successfully.");
+        currentUIState = FlightState.Landing;
     }
     static void handleDeleteTrip(){
         LinkedList<Trip> trips = (LinkedList<Trip>) user.getTrips();
@@ -195,6 +255,5 @@ public class Flight_UI {
         user.addTrip(trip2);
         //JsonUtil.toJsonFile("testingUser.json", user);
         return user;
-
     }
 }
