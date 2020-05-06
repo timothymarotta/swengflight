@@ -31,6 +31,12 @@ public class Trip {
         return name;
     }
 
+    public void removeTicket(Ticket ticket) {
+        if (tickets.contains(ticket)) {
+            tickets.remove(ticket);
+        } else throw new IllegalArgumentException("Ticket not in trip");
+    }
+
     //need to figure out how we are going to give all the boarding info back when
     //getBoardingInfo() is called, since that includes boarding time and gate number,
     //I think that a string would make sense
