@@ -77,6 +77,19 @@ public class DatabaseReader {
         return airport == null ? null : airport[1];
     }
 
+    public static String getIATAFromAirport(String airportString) {
+        if(airports == null) {
+            airports = readDataFromFile(airportDataPath);
+        }
+
+        String[] iata = airports.stream()
+                .filter((p) -> p[1].toLowerCase().equals(airportString.toLowerCase()))
+                .findFirst()
+                .orElse(null);
+
+        return iata == null ? null : iata[4];
+    }
+
     public static List<String[]> readDataFromFile(String path) {
         List<String[]> output = new ArrayList<String[]>();
 

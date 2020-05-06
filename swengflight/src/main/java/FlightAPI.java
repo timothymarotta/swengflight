@@ -10,8 +10,7 @@ import java.nio.Buffer;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class FlightAPI {
 
@@ -39,8 +38,36 @@ public class FlightAPI {
         return new Flight(data.departure.airport, data.departure.gate, data.arrival.airport, data.departure.airport, boardingTime, departureTime, arrivalTime);
     }
 
+
+    public static List<Flight> getFlightByDepArr(String depAirport, String arrAirport) throws Exception {
+        String depIATA = DatabaseReader.getIATAFromAirport(depAirport);
+        String arrIATA = DatabaseReader.getIATAFromAirport(arrAirport);
+
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("dep_iata", depIATA);
+        parameters.put("arr_iata", arrIATA);
+
+
+        String data = getFlightJSONByParameter(parameters);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new ParanamerModule());
+        mapper.registerModule(new JavaTimeModule());
+        API_Response response = mapper.readValue(data, API_Response.class);
+
+        List<Flight> output = new ArrayList<Flight>(response.data.length);
+        for (APIFlight f : response.data) {
+            output.add(buildFlightFromData(f));
+        }
+
+        return output;
+    }
+
     public static Flight getFlightByNumber(String flightNumber) throws Exception{
-        String data = getFlightJSONByNumber(flightNumber);
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("flight_number", flightNumber);
+
+
+        String data = getFlightJSONByParameter(parameters);
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ParanamerModule());
         mapper.registerModule(new JavaTimeModule());
@@ -52,9 +79,16 @@ public class FlightAPI {
         return buildFlightFromData(flight);
     }
 
-    public static String getFlightJSONByNumber(String flightNumber) throws Exception{
-        String backupPath = "data/" + flightNumber + ".flightdata";
+    public static String getFlightJSONByParameter(Map<String, String> parameters) throws Exception{
+
+        String backupPath = "data/";
+        for (String v :
+                parameters.values()) {
+            backupPath += v + "-";
+        }
+        backupPath +=".flightdata";
         File backup = new File(backupPath);
+        parameters.put("access_key", getKey());
 
         String flightJson;
 
@@ -67,7 +101,7 @@ public class FlightAPI {
             }
             flightJson = content.toString();
         } else {
-            String apiResponse = getJSONFromAPI(flightNumber);
+            String apiResponse = getJSONFromAPI(parameters);
             FileWriter out = new FileWriter(backup);
             out.write(apiResponse);
             out.close();
@@ -77,27 +111,15 @@ public class FlightAPI {
         return flightJson;
     }
 
-    private static String getJSONFromAPI(String flightNumber) throws Exception{
+    private static String getJSONFromAPI(Map<String, String> parameters) throws Exception{
         System.out.println("WARNING: This method called on the API");
-
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("access_key", getKey());
-        parameters.put("flight_number", flightNumber);
 
         URL url = new URL("http://api.aviationstack.com/v1/flights?" + ParameterStringBuilder.getParamsString(parameters));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
 
-
-
-
         con.setDoOutput(true);
         con.setRequestProperty("Content-Type", "application/json");
-//        DataOutputStream out = new DataOutputStream(con.getOutputStream());
-//        out.writeBytes(ParameterStringBuilder.getParamsString(parameters));
-//        out.flush();
-//        out.close();
-
 
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
