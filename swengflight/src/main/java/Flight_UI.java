@@ -150,7 +150,7 @@ public class Flight_UI {
             user.addTrip(new Trip(null, tripOrQuit));
 
             if (choice.equals("y")){
-                currentUIState = FlightState.AddFlightToTrip;
+                currentUIState = FlightState.AddTicketToTrip;
             }
 
         }
