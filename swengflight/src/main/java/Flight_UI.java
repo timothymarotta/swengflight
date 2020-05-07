@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
-enum FlightState {Landing, ViewTrips, GetFlightInfo, AddTrip, AddTicketToTrip, RemoveTicketFromTrip, DeleteTrip, UpdateTrip}
+enum FlightState {Landing, ViewTrips, GetFlightInfo, AddTrip, DeleteTrip, UpdateTrip}
 
 public class Flight_UI {
 
@@ -13,7 +13,7 @@ public class Flight_UI {
     private static Scanner in;
     private static boolean isRunning;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
         isRunning = true;
         currentUIState = FlightState.Landing;
@@ -28,10 +28,6 @@ public class Flight_UI {
                 handleGetFlightInfo();
             } else if(currentUIState == FlightState.AddTrip) {
                 handleAddTrip();
-            } else if(currentUIState == FlightState.AddTicketToTrip) {
-                handleAddTicketToTrip();
-            } else if (currentUIState == FlightState.RemoveTicketFromTrip){
-                handleRemoveTicketFromTrip();
             } else if (currentUIState == FlightState.DeleteTrip){
                 handleDeleteTrip();
             } else if (currentUIState == FlightState.UpdateTrip){
@@ -134,7 +130,7 @@ public class Flight_UI {
     static void handleGetFlightInfo(){
 
     }
-    static void handleAddTrip(){
+    static void handleAddTrip() throws Exception {
         //Placeholder for now
         System.out.print("Enter the name of the trip you would like to create, or type q to return home: ");
         Scanner in = new Scanner(System.in);
@@ -147,82 +143,83 @@ public class Flight_UI {
                 System.out.print("Invalid option. Please type y if you would like to add tickets or n if you want to return home: ");
                 choice = in.next();
             }
-            user.addTrip(new Trip(null, tripOrQuit));
+            Trip currentTrip = new Trip(null, tripOrQuit);
+            user.addTrip(currentTrip);
 
             if (choice.equals("y")){
-                currentUIState = FlightState.AddTicketToTrip;
+                handleAddTicketToTrip(currentTrip);
             }
 
         }
         // returns to main page
         currentUIState = FlightState.Landing;
     }
-    static void handleAddTicketToTrip(){
-        System.out.println("Your current trips are are:\n");
-        int i = 0;
-        ArrayList<Trip> tripList = new ArrayList<>();
-
-        //iterates through the trips, user selects a valid one
-        for (Trip trip : user.getTrips()) {
-            i += 1;
-            tripList.add(trip);
-            System.out.println(i + ": " + trip.getName());
+    static void handleAddTicketToTrip(Trip trip) throws Exception {
+        String depAirport, arrAirport;
+        System.out.println("Adding ticket to trip.");
+        in.nextLine();
+        System.out.print("Enter exact name for departure airport: ");
+        depAirport = in.nextLine();
+        System.out.print("Enter exact name for arrival airport: ");
+        arrAirport = in.nextLine();
+        System.out.println(depAirport);
+        System.out.println(arrAirport);
+        List<Flight> flightOptions = FlightAPI.getFlightByDepArr(depAirport, arrAirport);
+        if (flightOptions.size() == 0){
+            System.out.println("Either airport names were entered incorrectly or there are no available flights.");
+            System.out.print("To try to add a ticket again enter y, to cancel adding a ticket enter anything else: ");
+            String response = in.next();
+            if (response.equals("y")){
+                handleAddTicketToTrip(trip);
+            }
+            else{
+                return;
+            }
+        }
+        else{
+            int i = 0;
+            Iterator<Flight> flightItr = flightOptions.iterator();
+            while (i < 10 && flightItr.hasNext()){
+                i += 1;
+                Flight currentFlight = flightItr.next();
+                System.out.println(i + " : " + currentFlight.getDepartureCity() + " to " + currentFlight.getArrivalCity() + " at " + User.getTimeString(currentFlight.getDepartureTime()) + " on " + User.getDateString(currentFlight.getDepartureTime()));
+            }
+            int flightIndex = 0;
+            while (flightIndex < 1 || flightIndex > flightOptions.size() || flightIndex > 10) {
+                try {
+                    System.out.print("Select a flight to add by entering the number next to the flight, or type q to cancel adding a flight: ");
+                    String tripResponse = in.next();
+                    if (tripResponse.equals("q")){
+                        return;
+                    }
+                    flightIndex = Integer.parseInt(tripResponse);
+                } catch (NumberFormatException e) {
+                }
+            }
+            Flight flightToAdd = flightOptions.get(flightIndex - 1);
+            trip.getTickets().add(new Ticket(null, null, null, flightToAdd, flightToAdd.getDepartureTime()));
+            System.out.println("Ticket added successfully.");
         }
 
-        int response = 0;
-        while (response < 1 || response > i) {
-            try {
-                System.out.println("Enter the number of the trip that you want to add a ticket to.\n");
-                response = Integer.parseInt(in.next());
-            } catch (NumberFormatException e) { }
-        }
-        Trip trip = tripList.get(response);
 
-        //TODO: add ticket to trip
 
     }
-    static void handleRemoveTicketFromTrip(){
-        System.out.println("Your current trips are are:\n");
-        int i = 0;
-        ArrayList<Trip> tripList = new ArrayList<>();
-
-        //iterates through the trips, user selects a valid one
-        for (Trip trip : user.getTrips()) {
-            i += 1;
-            tripList.add(trip);
-            System.out.println(i + ": " + trip.getName());
-        }
-
+    static void handleRemoveTicketFromTrip(Trip trip){
         int response = 0;
-        while (response < 1 || response > i) {
-            try {
-                System.out.println("Enter the number of the trip that contains the flight you want to remove.\n");
-                response = Integer.parseInt(in.next());
-            } catch (NumberFormatException e) { }
-        }
-
-        Trip trip = tripList.get(response);
-        i = 0;
-        ArrayList<Ticket> ticketList = new ArrayList<>();
-        System.out.println("Your tickets in this trip are:\n");
-
-        for (Ticket ticket : trip.getTickets()) {
-            i += 1;
-            ticketList.add(ticket);
-            System.out.println(i + ": " + ticket.getName());
-        }
+        LinkedList<Ticket> ticketList = (LinkedList<Ticket>) trip.getTickets();
 
         response = 0;
-        while (response < 1 || response > i) {
+        while (response < 1 || response > ticketList.size()) {
             try {
-                System.out.println("Enter the number of the ticket that contains the flight you want to remove.\n");
-                response = Integer.parseInt(in.next());
-            } catch (NumberFormatException e) { }
+                System.out.print("Select a trip by entering the number next to the trips name: ");
+                String tripResponse = in.next();
+                response = Integer.parseInt(tripResponse);
+            } catch (NumberFormatException e) {
+            }
         }
 
-        trip.removeTicket(ticketList.get(response));
+        trip.removeTicket(ticketList.get(response - 1));
         System.out.println("Ticket removed successfully.");
-        currentUIState = FlightState.Landing;
     }
     static void handleDeleteTrip(){
         LinkedList<Trip> trips = (LinkedList<Trip>) user.getTrips();
@@ -251,7 +248,7 @@ public class Flight_UI {
         }
         currentUIState = FlightState.Landing;
     }
-    static void handleUpdateTrip(){
+    static void handleUpdateTrip() throws Exception {
         LinkedList<Trip> trips = (LinkedList<Trip>) user.getTrips();
         int tripIndex = 0;
         while (tripIndex < 1 || tripIndex > trips.size()) {
@@ -280,12 +277,13 @@ public class Flight_UI {
         }
         if (response.equals("q")){
             currentUIState = FlightState.Landing;
+            return;
         }
         else if (response.equals("1")){
-            currentUIState = FlightState.AddTicketToTrip;
+            handleAddTicketToTrip(currentTrip);
         }
         else{
-            currentUIState = FlightState.RemoveTicketFromTrip;
+            handleRemoveTicketFromTrip(currentTrip);
         }
 
     }

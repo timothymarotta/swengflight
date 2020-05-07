@@ -81,7 +81,6 @@ public class DatabaseReader {
         if(airports == null) {
             airports = readDataFromFile(airportDataPath);
         }
-
         String[] iata = airports.stream()
                 .filter((p) -> p[1].toLowerCase().equals(airportString.toLowerCase()))
                 .findFirst()
