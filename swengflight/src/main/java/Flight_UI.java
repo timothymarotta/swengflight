@@ -252,21 +252,55 @@ public class Flight_UI {
         currentUIState = FlightState.Landing;
     }
     static void handleUpdateTrip(){
-        System.out.println("Handle Update Trip, not working for now");
-        currentUIState = FlightState.Landing;
+        LinkedList<Trip> trips = (LinkedList<Trip>) user.getTrips();
+        int tripIndex = 0;
+        while (tripIndex < 1 || tripIndex > trips.size()) {
+            try {
+                System.out.print("Select a trip by entering the number next to the trips name: ");
+                String tripResponse = in.next();
+                tripIndex = Integer.parseInt(tripResponse);
+            } catch (NumberFormatException e) {
+            }
+        }
+        Trip currentTrip = trips.get(tripIndex - 1);
+        Iterator<Ticket> ticketItr = currentTrip.getTickets().iterator();
+        System.out.println("Current tickets in trip");
+        int i = 0;
+        while (ticketItr.hasNext()){
+            i += 1;
+            Ticket currentTicket = ticketItr.next();
+            Flight currentFlight = currentTicket.getFlight();
+            System.out.println(i + " : " + currentFlight.getDepartureCity() + " to " + currentFlight.getArrivalCity() + " at " + User.getTimeString(currentFlight.getDepartureTime()) + " on " + User.getDateString(currentFlight.getDepartureTime()));
+        }
+        System.out.print("Enter 1 to add a new ticket to the trip, 2 to remove a ticket from the trip, or q to return to home page: ");
+        String response = in.next();
+        while (!(response.equals("1") || response.equals("2") || response.equals("q"))){
+            System.out.print("Invalid entry, please enter 1, 2, or q: ");
+            response = in.next();
+        }
+        if (response.equals("q")){
+            currentUIState = FlightState.Landing;
+        }
+        else if (response.equals("1")){
+            currentUIState = FlightState.AddTicketToTrip;
+        }
+        else{
+            currentUIState = FlightState.RemoveTicketFromTrip;
+        }
+
     }
     //Create basic user for testing
     static User testingUser() throws IOException{
         User user = new User("Test");
         Collection<Ticket> tickets1 = new LinkedList<Ticket>();
         Flight houstonToMiami = new Flight("IAH", "A23", "MIA", "Houston", LocalDateTime.of(2020, 4, 12, 9, 25).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 4, 12, 9, 55).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 4, 12, 11, 45).atZone(ZoneId.of("America/Puerto_Rico")));
-        tickets1.add(new Ticket("Josh Hayden", "American", "1234", houstonToMiami, LocalDateTime.of(2020, 4, 12, 0, 0).atZone(ZoneId.of("America/Chicago"))));
+        tickets1.add(new Ticket("Houston to Mimi", "American", "1234", houstonToMiami, LocalDateTime.of(2020, 4, 12, 0, 0).atZone(ZoneId.of("America/Chicago"))));
         Flight miamiToHouston = new Flight("MIA", "B13", "IAH", "Miami",  LocalDateTime.of(2020, 4, 19, 8, 30).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2020, 4, 19, 9, 0).atZone(ZoneId.of("America/Puerto_Rico")), LocalDateTime.of(2020, 4, 19, 12, 30).atZone(ZoneId.of("America/Puerto_Rico")));
-        tickets1.add(new Ticket("Josh Hayden", "American", "2345", miamiToHouston, LocalDateTime.of(2020, 4, 19, 0, 0).atZone(ZoneId.of("America/Chicago"))));
+        tickets1.add(new Ticket("Miami to Houston", "American", "2345", miamiToHouston, LocalDateTime.of(2020, 4, 19, 0, 0).atZone(ZoneId.of("America/Chicago"))));
         Trip trip1 = new Trip(tickets1, "Houston To Miami");
         Collection<Ticket> tickets2 = new LinkedList<Ticket>();
         Flight ithacaToCleveland = new Flight("ITH", "B42", "CLE", "Ithaca", LocalDateTime.of(2020, 7, 27, 14, 20).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 7, 27, 14, 55).atZone(ZoneId.of("America/Chicago")), LocalDateTime.of(2020, 7, 27, 17, 15).atZone(ZoneId.of("America/Chicago")));
-        tickets2.add(new  Ticket("Josh Hayden","United","4058",  ithacaToCleveland, LocalDateTime.of(2020,  7, 27, 0, 0).atZone(ZoneId.of("America/Chicago"))));
+        tickets2.add(new  Ticket("Ithaca To Cleveland","United","4058",  ithacaToCleveland, LocalDateTime.of(2020,  7, 27, 0, 0).atZone(ZoneId.of("America/Chicago"))));
         Trip trip2 = new Trip(tickets2, "Ithaca To Cleveland");
         user.addTrip(trip1);
         user.addTrip(trip2);
