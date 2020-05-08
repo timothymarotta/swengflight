@@ -143,7 +143,7 @@ public class Flight_UI {
                 System.out.print("Invalid option. Please type y if you would like to add tickets or n if you want to return home: ");
                 choice = in.next();
             }
-            Trip currentTrip = new Trip(null, tripOrQuit);
+            Trip currentTrip = new Trip(new ArrayList<Ticket>(), tripOrQuit);
             user.addTrip(currentTrip);
 
             if (choice.equals("y")){
