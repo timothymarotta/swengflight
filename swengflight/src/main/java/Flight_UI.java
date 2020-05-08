@@ -162,8 +162,6 @@ public class Flight_UI {
         depAirport = in.nextLine();
         System.out.print("Enter exact name for arrival airport: ");
         arrAirport = in.nextLine();
-        System.out.println(depAirport);
-        System.out.println(arrAirport);
         List<Flight> flightOptions = FlightAPI.getFlightByDepArr(depAirport, arrAirport);
         if (flightOptions.size() == 0){
             System.out.println("Either airport names were entered incorrectly or there are no available flights.");
